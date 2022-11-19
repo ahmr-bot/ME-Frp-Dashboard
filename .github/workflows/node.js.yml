@@ -31,8 +31,8 @@ jobs:
     - run: |
         cd dist
         git init . && git add .
-        git config user.name "iVampireSP"
-        git config user.email "im@ivampiresp.com"
+        git config user.name "ahmr-bot"
+        git config user.email "ahmrcxy@gmail.com"
         git add .
         git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
         git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/iVampireSP/lae-ui/" master:dist  
