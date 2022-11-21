@@ -14,10 +14,10 @@
           <tr>
             <th scope="col">服务</th>
             <th scope="col">名称</th>
-            <th scope="col">Drops / 5 Min</th>
-            <!-- <th scope="col">余额 / 月</th> -->
+            <th scope="col">元 / 月(大约)</th>
             <th scope="col">本月消耗</th>
             <th scope="col">状态</th>
+            <th scope="col">几时扣费</th>
             <th scope="col">创建时间</th>
             <!-- <th scope="col">更新时间</th> -->
             <th scope="col">释放</th>
@@ -28,37 +28,28 @@
             <td>{{ host.module.name }}</td>
             <td>{{ host.name }}</td>
             <td>
-              <span v-if="host.managed_price > 0" class="text-success">
+              <span v-if="host.managed_price !== null" class="text-success">
                 {{ host.managed_price }} 元 / 月
                 <br />
               </span>
-              <span v-if="host.price > 0" class="text-success">
-                {{ host.price }} Drops ≈
-                {{ ((host.price / dropsRate) * 8640).toFixed(2) }} 元 / 月
+              <span v-else-if="host.price > 0" class="text-success">
+                {{ host.price }} 元 / 月
               </span>
-              <span v-if="host.price == 0 && host.managed_price == 0 " class="text-danger">
+              <span
+                v-else-if="
+                  host.price == 0 &&
+                  (host.managed_price == 0 || host.managed_price == null)
+                "
+                class="text-danger"
+              >
                 被接管
               </span>
             </td>
-            <!-- <td>
-                <span v-if="host.managed_price" class="text-success">
-                    {{ host.managed_price ?? 0 }} 元 / 月
-                </span>
-                <span v-else>
-                    <i class="bi bi-arrow-left"></i> Drops
-                </span>
-            </td> -->
             <td>
-              <span v-if="usages.drops[host.id]">
-                {{ usages.drops[host.id].toFixed(4) + ' Drops' ?? '未计量' }}
-              </span>
-              <span v-else>
-                0 Drops
-              </span>
-              <br />
               <span v-if="usages.balances[host.id]">
-                {{ usages.balances[host.id] + ' 元' ?? '未计量' }}
+                {{ usages.balances[host.id] }} 元
               </span>
+              <span v-else> 0 元 </span>
             </td>
             <td>
               <span v-if="host.status == 'running'">
@@ -84,6 +75,7 @@
                 </span>
               </span>
             </td>
+            <td>{{ new Date(host.created_at).getHours() }} 时</td>
             <td>{{ new Date(host.created_at).toLocaleString() }}</td>
             <!-- <td>{{ new Date(host.updated_at).toLocaleString() }}</td> -->
             <td>
@@ -105,74 +97,73 @@
     </div>
 
     <p>当您释放资源后，我们将会在后台排队处理，这可能需要一些时间。</p>
-    <p>请注意: Drops 计算并不准确。它可能与实际获得有点偏差。</p>
+    <p>请注意: 余额 计算并不准确。它可能与实际获得有点偏差。</p>
+    <p>现在，计费已经改为每小时一次。</p>
   </div>
 </template>
 
 <script setup>
-import http from '../../api/http'
-import { ref, onMounted, onUnmounted } from 'vue'
-import store from '../../plugins/store'
-const dropsRate = ref(store.state.user.drops_rate)
+  import http from '../../api/http'
+  import { ref, onMounted, onUnmounted } from 'vue'
 
-const hosts = ref([])
+  const hosts = ref([])
 
-const usages = ref([])
+  const usages = ref([])
 
-function refresh() {
+  function refresh() {
     http
-        .get('/hosts')
-        .then((res) => {
-            hosts.value = res.data
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+      .get('/hosts')
+      .then((res) => {
+        hosts.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
     http
-        .get('/hosts/usages')
-        .then((res) => {
-            usages.value = res.data
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-}
+      .get('/hosts/usages')
+      .then((res) => {
+        usages.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
-function deleteHost(id) {
+  function deleteHost(id) {
     if (
-        confirm(
-            '释放后，您将无法再次使用此资源，它的数据将会被彻底删除并且无法找回，是否继续？'
-        )
+      confirm(
+        '释放后，您将无法再次使用此资源，它的数据将会被彻底删除并且无法找回，是否继续？'
+      )
     ) {
-        http.delete('/hosts/' + id).then((res) => {
-            refresh()
-        })
+      http.delete('/hosts/' + id).then((res) => {
+        refresh()
+      })
     }
-}
+  }
 
-function startHost(id) {
+  function startHost(id) {
     http
-        .patch('/hosts/' + id, { status: 'running' })
-        .then((res) => {
-            // if status 400
-            if (res.status == 400) {
-                alert(res.data.message)
-            } else {
-                refresh()
-            }
-        })
+      .patch('/hosts/' + id, { status: 'running' })
+      .then((res) => {
+        // if status 400
+        if (res.status == 400) {
+          alert(res.data.message)
+        } else {
+          refresh()
+        }
+      })
 
-        .catch(() => {
-            alert('无法解除暂停。可能是您的余额不足。')
-        })
-}
+      .catch(() => {
+        alert('无法解除暂停。可能是您的余额不足。')
+      })
+  }
 
-onMounted(() => {
+  onMounted(() => {
     refresh()
     const interval = setInterval(refresh, 5000)
     onUnmounted(() => {
-        clearInterval(interval)
+      clearInterval(interval)
     })
-})
+  })
 </script>
