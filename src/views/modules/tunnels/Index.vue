@@ -69,20 +69,6 @@
       >
         创建隧道
       </button>
-      <router-link
-        type="button"
-        class="btn btn-outline-primary"
-        :to="{ name: 'modules.tunnels.compact' }"
-      >
-        整合配置
-      </router-link>
-      <router-link
-        type="button"
-        class="btn btn-outline-primary"
-        :to="{ name: 'modules.tunnels.download' }"
-      >
-        客户端下载
-      </router-link>
     </div>
   </div>
 

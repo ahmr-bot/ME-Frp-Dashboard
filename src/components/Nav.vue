@@ -29,25 +29,25 @@
                 class="nav-link text-auto"
                 active-class="active"
                 :to="{ name: 'modules.tunnels' }"
-                >镜缘映射</router-link
+                >隧道列表</router-link
               >
             </li>
             <li class="nav-item">
               <router-link
                 class="nav-link text-auto"
                 active-class="active"
-                :to="{ name: 'modules.gct' }"
-                >游戏容器</router-link
+                :to="{ name: 'modules.tunnels.compact' }"
+                >配置文件</router-link
               >
             </li>
-            <!-- <li class="nav-item">
+         <li class="nav-item">
               <router-link
                 class="nav-link text-auto"
                 active-class="active"
-                :to="{ name: 'modules.cdn' }"
-                >内容分发</router-link
+                :to="{ name: 'modules.tunnels.download' }"
+                >软件下载</router-link
               >
-            </li> -->
+            </li>
           </ul>
 
           <!-- Right Side Of Navbar -->
