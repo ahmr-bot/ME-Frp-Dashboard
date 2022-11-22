@@ -91,7 +91,7 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: #f0f0f0;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -224,7 +224,7 @@ small {
 .mark,
 mark {
   padding: 0.2em;
-  background-color: #fcf8e3;
+  background-color: #fcf8e31b;
 }
 sub,
 sup {

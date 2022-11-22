@@ -28,6 +28,14 @@
               <router-link
                 class="nav-link text-auto"
                 active-class="active"
+                to="/"
+                >首页</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link text-auto"
+                active-class="active"
                 :to="{ name: 'modules.tunnels' }"
                 >隧道列表</router-link
               >

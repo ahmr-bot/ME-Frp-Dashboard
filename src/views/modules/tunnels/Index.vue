@@ -60,7 +60,7 @@
 
   <div class="mt-3">
     <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
-      <button
+      <v-btn
         type="button"
         class="btn btn-outline-primary"
         data-bs-toggle="modal"
@@ -73,7 +73,7 @@
         "
       >
         创建隧道
-      </button>
+        </v-btn>
     </div>
   </div>
 
@@ -88,24 +88,24 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">新建隧道</h5>
-          <button
+        <v-btn
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-          ></button>
+          ></v-btn>
         </div>
         <div class="modal-body">
-          <div v-if="tunnelCreated" class="alert alert-success" role="alert">
+          <v-alert type="success" v-if="tunnelCreated" class="alert alert-success" role="alert">
             隧道创建成功。
-          </div>
-          <div
+          </v-alert>
+          <v-alert type="error"
             v-else-if="tunnelCreateError"
             class="alert alert-danger"
             role="alert"
           >
             {{ tunnelCreateError }}
-          </div>
+          </v-alert>
           <div v-else class="alert alert-primary" role="alert">
             为了防止隧道被滥用，我们会不定期检查映射内容。
           </div>
@@ -136,15 +136,33 @@
               id="floatingProtocol"
               v-model="createTunnel.protocol"
             >
+            <option value="tcp">TCP</option>
+              <option value="udp">UDP</option>
               <option value="http">HTTP</option>
               <option value="https">HTTPS</option>
-              <option value="tcp">TCP</option>
-              <option value="udp">UDP</option>
             </select>
             <label for="floatingProtocol">协议</label>
           </div>
 
           <!-- 选择服务器 -->
+          <div
+            class="form-floating mb-3"
+            v-show="createTunnel.protocol == 'tcp'"
+          >
+            <select
+              class="form-control"
+              id="floatingServer"
+              v-model="createTunnel.server_id"
+              @change="randomRemotePort"
+            >
+              <option v-for="server in servers_tcp" :value="server.id">
+                {{ server.name }}
+              </option>
+            </select>
+            <label for="floatingServer"
+              >选择支持 TCP 协议的节点(国内服务器严禁 TCP 建站)</label
+            >
+          </div>
           <div
             class="form-floating mb-3"
             v-show="createTunnel.protocol == 'http'"
@@ -177,24 +195,7 @@
             <label for="floatingServer">选择支持 HTTPS 协议的节点</label>
           </div>
 
-          <div
-            class="form-floating mb-3"
-            v-show="createTunnel.protocol == 'tcp'"
-          >
-            <select
-              class="form-control"
-              id="floatingServer"
-              v-model="createTunnel.server_id"
-              @change="randomRemotePort"
-            >
-              <option v-for="server in servers_tcp" :value="server.id">
-                {{ server.name }}
-              </option>
-            </select>
-            <label for="floatingServer"
-              >选择支持 TCP 协议的节点(国内服务器严禁 TCP 建站)</label
-            >
-          </div>
+
 
           <div
             class="form-floating mb-3"
@@ -304,16 +305,16 @@
         </div>
 
         <div class="modal-footer">
-          <button
+          <v-btn
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
             取消
-          </button>
-          <button type="button" class="btn btn-primary" @click="create">
+          </v-btn>
+        <v-btn type="button" class="btn btn-primary" @click="create">
             创建
-          </button>
+          </v-btn>
         </div>
       </div>
     </div>

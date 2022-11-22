@@ -6,18 +6,27 @@
   ></div>
 
   <div class="mb-2" v-show="show">
-    <h4>欢迎使用 莱云</h4>
+    <h2>欢迎使用 MirrorEdge 镜缘映射</h2>
 
-    <!-- <span v-if="item.attributes">
-      {{ item.attributes.title }}
-    </span>
-
-    <span v-if="item.attributes">
-      {{ new Date(item.attributes.createdAt).toLocaleString() }}
-    </span> -->
-
+    <v-card text="用户信息">
+      <v-card-subtitle>{{ store.state.user.name }}</v-card-subtitle>
+    <v-card-text>
+      <div>隧道数量: ∞ 条</div>
+      <div>带宽: ∞ Mbps</div>
+      <div>余额: {{ store.state.user.balance }} 元</div>
+          <router-link class="text-auto" :to="{ name: 'billing.transactions' }"
+            > 交易记录</router-link
+          ><br />
+          <router-link class="text-auto" :to="{ name: 'billing.charge' }"
+            >充值</router-link
+          >
+    </v-card-text>
+         </v-card>
+        <br />
+         <v-card text="公告">
+          <v-card-text>
     <div v-show="base_url">
-      <h4 class="mt-3">公告</h4>
+      
       <div class="list-group mt-3" v-for="item in pinned">
         <span v-if="item.attributes">
           <a
@@ -41,12 +50,10 @@
           </a>
         </span>
       </div>
+   
     </div>
-
-    <!-- 贡献代码 -->
-    <h3>GitHub</h3>
-    <p>如果您想要为莱云 控制面板 贡献代码，或者自定义它。</p>
-    <a target="_blank" href="https://github.com/iVampireSP/lae-ui">https://github.com/iVampireSP/lae-ui</a>
+  </v-card-text>
+  </v-card>
   </div>
 </template>
 
