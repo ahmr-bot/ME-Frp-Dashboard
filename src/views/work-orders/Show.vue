@@ -1,4 +1,24 @@
 <template>
+  <v-app id="inspire">
+  <!--appbar-->
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      expand-on-hover
+        rail
+        permanent
+    ><List />
+    </v-navigation-drawer>
+      <!--appbarend-->
+    <v-main>
+      <v-container>
+
+          <template v-for="n in 1" :key="n">
   <div>
     <h3 v-text="workOrder.title"></h3>
 
@@ -49,8 +69,14 @@
     <WorkOrderStatus :status="workOrder.status" />
   </div>
 </template>
+   
+  </v-container>
+</v-main>
+</v-app>
+</template>
 
 <script setup>
+import List from '../../components/list.vue'
   import { useRoute } from 'vue-router'
   import { ref, onUnmounted } from 'vue'
 
@@ -123,3 +149,8 @@
     background-color: var(--bs-body-bg) !important;
   }
 </style>
+<script>
+  export default {
+    data: () => ({ drawer: 111 }),
+  }
+</script>

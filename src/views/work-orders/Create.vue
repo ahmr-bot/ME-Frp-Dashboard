@@ -1,4 +1,24 @@
 <template>
+  <v-app id="inspire">
+  <!--appbar-->
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      expand-on-hover
+        rail
+        permanent
+    ><List />
+    </v-navigation-drawer>
+      <!--appbarend-->
+    <v-main>
+      <v-container>
+
+          <template v-for="n in 1" :key="n">
   <h4>您遇到了什么问题？</h4>
   <div class="mt-3"></div>
   <div v-show="workOrder.host_id == null" class="cursor-pointer">
@@ -68,8 +88,14 @@
     </button>
   </div>
 </template>
+   
+  </v-container>
+</v-main>
+</v-app>
+</template>
 
 <script setup>
+import List from '../../components/list.vue'
   import { ref } from 'vue'
 
   import http from '../../api/http'
@@ -110,5 +136,10 @@
         },
       })
     })
+  }
+</script>
+<script>
+  export default {
+    data: () => ({ drawer: 111 }),
   }
 </script>
