@@ -8,7 +8,6 @@
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import './assets/css/bootstrap-dark.min.css';
 import './style.css';
 
 import { createApp } from 'vue';
