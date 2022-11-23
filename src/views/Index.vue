@@ -42,7 +42,11 @@
           ><br />
           <router-link class="text-auto" :to="{ name: 'billing.charge' }"
             >充值</router-link
-          >
+          ><br />
+          <router-link
+          :to="{ name: 'login' }"
+          >更换账号</router-link
+        >
     </v-card-text>
          </v-card>
         <br />
