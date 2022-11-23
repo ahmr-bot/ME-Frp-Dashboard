@@ -124,9 +124,9 @@
           >
             {{ tunnelCreateError }}
           </v-alert>
-          <div v-else class="alert alert-primary" role="alert">
+          <v-alert type="info">
             为了防止隧道被滥用，我们会不定期检查映射内容。
-          </div>
+          </v-alert>
           <div class="form-floating mb-3">
             <input
               class="form-control"
