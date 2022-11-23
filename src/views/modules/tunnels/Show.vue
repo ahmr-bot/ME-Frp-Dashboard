@@ -1,4 +1,7 @@
 <template>
+    <router-link class="btn btn-outline-primary" :to="{ name: 'modules.tunnels' }">
+    返回到 隧道相关
+  </router-link>
   <div>
     <div v-if="loaded">
       <h3>
@@ -108,8 +111,6 @@
           @click="copy(tunnel.server.server_address + ':' + tunnel.remote_port)"
         >
           {{
-            tunnel.protocol +
-            '://' +
             tunnel.server.server_address +
             ':' +
             tunnel.remote_port
@@ -144,32 +145,9 @@
               aria-controls="nav-conf-all"
               aria-selected="false"
             >
-              全部配置
+              配置文件
             </button>
-            <button
-              class="nav-link"
-              id="nav-conf-server-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#nav-conf-server"
-              type="button"
-              role="tab"
-              aria-controls="nav-conf-server"
-              aria-selected="false"
-            >
-              服务器
-            </button>
-            <button
-              class="nav-link"
-              id="nav-conf-client-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#nav-conf-client"
-              type="button"
-              role="tab"
-              aria-controls="nav-conf-client"
-              aria-selected="false"
-            >
-              客户端
-            </button>
+
             <button
               class="nav-link"
               id="nav-conf-client-in-tab"
@@ -355,7 +333,6 @@ function refresh() {
         }
     })
 }
-
 refresh()
 
 function change() {
@@ -423,7 +400,7 @@ function freshChart() {
                 },
                 formatter: function (data) {
                     let html = ''
-                    if (data.length > 0) {
+                    if (data.length = 0) {
                         html += data[0].name + '<br/>'
                     }
                     for (let v of data) {

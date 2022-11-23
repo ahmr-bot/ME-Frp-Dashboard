@@ -1,4 +1,24 @@
 <template>
+  <v-app id="inspire">
+  <!--appbar-->
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      expand-on-hover
+        rail
+        permanent
+    ><List />
+    </v-navigation-drawer>
+      <!--appbarend-->
+    <v-main>
+      <v-container>
+
+          <template v-for="n in 1" :key="n">
   <div
     v-show="!show"
     style="width: 100%; height: 500px"
@@ -6,8 +26,11 @@
   ></div>
 
   <div class="mb-2" v-show="show">
-    <h2>欢迎使用 MirrorEdge 镜缘映射</h2>
-
+    <v-alert type="success"
+    color="info"
+      title="Welcome！"
+      variant="tonal">欢迎使用 MirrorEdge 镜缘映射</v-alert>
+    <br />
     <v-card text="用户信息">
       <v-card-subtitle>{{ store.state.user.name }}</v-card-subtitle>
     <v-card-text>
@@ -55,9 +78,15 @@
   </v-card-text>
   </v-card>
   </div>
+            </template>
+   
+      </v-container>
+    </v-main>
+</v-app>
 </template>
 
 <script setup>
+ import List from '../components/list.vue'
   import { ref, onMounted, onUnmounted } from 'vue'
   import http from '../api/http'
   import store from '../plugins/store'
@@ -86,8 +115,8 @@
     return Math.floor(Math.random() * 100)
   }
 
-  let fontSize = 100
-  let color = 'black'
+  // let fontSize = 100
+ //  let color = 'black'
 
   // let sentences = [
   //   'Make LAE great again!',
@@ -104,97 +133,10 @@
   // // pick
   // let sentence = sentences[Math.floor(Math.random() * sentences.length)]
 
-  let sentence = store.state.user.name ?? '莱云'
 
-  function resizeFont() {
-    if (window.innerWidth < 768) {
-      fontSize = 40
-
-      if (sentence.length > 20) {
-        fontSize = 20
-      }
-
-      //   如果渲染后字体太大，就缩小
-      if (sentence.length * fontSize > window.innerWidth) {
-        fontSize = window.innerWidth / sentence.length
-      }
-    } else {
-      if (sentence.length > 20) {
-        fontSize = 50
-      }
-    }
+</script>
+<script>
+  export default {
+    data: () => ({ drawer: 111 }),
   }
-  // if dark mode
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    color = 'white'
-  }
-
-  onMounted(() => {
-    resizeFont()
-
-    var chartDom = document.getElementById('chart-container')
-    var myChart = echarts.init(chartDom, null, {
-      renderer: 'svg',
-    })
-    var option
-
-    let lineDash = randomInt() * 10
-    option = {
-      graphic: {
-        elements: [
-          {
-            type: 'text',
-            left: 'center',
-            top: 'center',
-            style: {
-              text: sentence,
-              fontSize: fontSize,
-              fontWeight: 300,
-              lineDash: [0, 200],
-              lineDashOffset: 0,
-              fill: 'transparent',
-              stroke: color,
-              lineWidth: 1,
-            },
-            keyframeAnimation: {
-              duration: 1000,
-              loop: false,
-              keyframes: [
-                {
-                  percent: 0.5,
-                  style: {
-                    fill: 'transparent',
-                    lineDashOffset: lineDash,
-                    lineDash: [lineDash, 0],
-                  },
-                },
-                {
-                  percent: 1,
-                  style: {
-                    fill: color,
-                  },
-                }
-              ],
-            },
-          },
-        ],
-      },
-    }
-
-    option && myChart.setOption(option)
-
-    // when resize, resize chart
-    window.addEventListener('resize', () => {
-      myChart.resize()
-
-      resizeFont()
-    })
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', () => {
-      myChart.resize()
-      resizeFont()
-    })
-  })
 </script>

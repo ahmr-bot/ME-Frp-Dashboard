@@ -2,11 +2,32 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-22 00:23:44
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-22 19:11:04
+ * @LastEditTime: 2022-11-23 17:08:33
  * @FilePath: \lae-ui\src\views\modules\tunnels\Download.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
+  <v-app id="inspire">
+  <!--appbar-->
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      expand-on-hover
+        rail
+        permanent
+    ><List />
+    </v-navigation-drawer>
+      <!--appbarend-->
+    <v-main>
+      <v-container>
+
+          <template v-for="n in 1" :key="n">
+  <v-card text="MirrorEdge 镜缘映射 客户端下载">
   <h3 class="mt-3">客户端下载</h3>
 
   <div class="overflow-auto">
@@ -36,12 +57,17 @@
     </tbody>
   </table>
   </div>
-
+</v-card>
+</template>
+   
+  </v-container>
+</v-main>
+</v-app>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
+import List from '../../../components/list.vue'
 
 const links = ref({})
 
@@ -64,4 +90,9 @@ links.value = [
 ];
 
 
+</script>
+<script>
+  export default {
+    data: () => ({ drawer: null }),
+  }
 </script>

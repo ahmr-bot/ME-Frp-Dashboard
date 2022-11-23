@@ -1,8 +1,26 @@
 <template>
-  <div>
-    <h3>镜缘映射</h3>
+    <v-app id="inspire">
+    <!--appbar-->
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-    <p>镜缘映射可以帮助您映射您的内网服务到公网中。</p>
+      <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      expand-on-hover
+        rail
+        permanent
+    ><List />
+    </v-navigation-drawer>
+  
+    <!--appbarend-->
+    <v-main>
+      <v-container>
+
+          <template v-for="n in 1" :key="n">
+    <h2>隧道相关</h2>
     <p>
       <a
         href="https://forum.laecloud.com/d/5-ying-she-ji-chu-jiao-xue-ji-chu-zhong-de-ji-chu-chu-xue-zhe-xian-ding"
@@ -13,52 +31,7 @@
     <p v-show="traffics.free_traffic">
       您当前的可抵用流量: {{ traffics.free_traffic }} GB
     </p>
-
-    <div class="list-group mt-3" v-for="tunnel in tunnels">
-      <router-link
-        :to="{ name: 'modules.tunnels.show', params: { id: tunnel.id } }"
-        class="list-group-item list-group-item-action shadow-sm rounded"
-      >
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 text-success">{{ tunnel.name }}</h5>
-          <small>{{ new Date(tunnel.updated_at).toLocaleString() }}</small>
-        </div>
-        <p class="mb-1">
-          <span
-            v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'"
-            data-bs-toggle="tooltip"
-            data-bs-placement="right"
-            title="按住 Shift 或 Ctrl 来打开"
-          >
-            <a
-              rel="noreferrer"
-              target="_blank"
-              :href="tunnel.protocol + '://' + tunnel.custom_domain"
-              class="text-decoration-none"
-            >
-              {{ tunnel.protocol + '://' + tunnel.custom_domain }}
-              <i class="bi bi-box-arrow-up-right text-decoration-none"></i
-            ></a>
-          </span>
-
-          <span v-else>
-            {{
-              tunnel.protocol +
-              '://' +
-              tunnel.server.server_address +
-              ':' +
-              tunnel.remote_port
-            }}
-          </span>
-        </p>
-        <!-- <small class="text-muted">
-        
-        </small> -->
-      </router-link>
-    </div>
-  </div>
-
-  <div class="mt-3">
+    <div class="mt-3">
     <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
       <v-btn
         type="button"
@@ -76,6 +49,51 @@
         </v-btn>
     </div>
   </div>
+    <div class="list-group mt-3" v-for="tunnel in tunnels">
+      <router-link
+        :to="{ name: 'modules.tunnels.show', params: { id: tunnel.id } }"
+        class="list-group-item list-group-item-action shadow-sm rounded"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 text-success">{{ tunnel.name }}</h5>
+          <small>{{ new Date(tunnel.updated_at).toLocaleString() }}</small>
+        </div>
+        <p class="mb-1">
+          <span
+            v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            title="按住 Shift 或 Ctrl 来打开"
+          >隧道地址:
+            <a
+              rel="noreferrer"
+              target="_blank"
+              :href="tunnel.protocol + '://' + tunnel.custom_domain"
+              class="text-decoration-none"
+            >
+             {{ tunnel.protocol + '://' + tunnel.custom_domain }}
+              <i class="bi bi-box-arrow-up-right text-decoration-none"></i
+            ></a>
+          </span>
+
+          <span v-else>隧道地址:<a rel="noreferrer"
+              target="_blank"     class="text-decoration-none">
+             {{
+              tunnel.server.server_address +
+              ':' +
+              tunnel.remote_port
+            }} </a>
+          </span>
+        </p>
+        <!-- <small class="text-muted">
+        
+        </small> -->
+      </router-link>
+    </div>
+  </template>
+   
+  </v-container>
+</v-main>
 
   <div
     class="modal fade"
@@ -131,17 +149,15 @@
 
           <!-- 选择协议 -->
           <div class="form-floating mb-3">
-            <select
-              class="form-control"
-              id="floatingProtocol"
+            <v-select
+  clearable
+  label="Select"
+  id="floatingProtocol"
               v-model="createTunnel.protocol"
-            >
-            <option value="tcp">TCP</option>
-              <option value="udp">UDP</option>
-              <option value="http">HTTP</option>
-              <option value="https">HTTPS</option>
-            </select>
-            <label for="floatingProtocol">协议</label>
+  :items="['tcp', 'udp' , 'http' ,'https']"
+  variant="solo"
+></v-select>
+
           </div>
 
           <!-- 选择服务器 -->
@@ -162,6 +178,7 @@
             <label for="floatingServer"
               >选择支持 TCP 协议的节点(国内服务器严禁 TCP 建站)</label
             >
+           
           </div>
           <div
             class="form-floating mb-3"
@@ -353,9 +370,11 @@
                 </div>
               </div> -->
   <!-- </div> -->
+</v-app>
 </template>
 
 <script setup>
+ import List from '../../../components/list.vue'
   import { ref } from 'vue'
   //   import { useRoute } from 'vue-router'
   import http from '../../../api/http'
@@ -525,5 +544,10 @@
         tunnelCreateError.value =
           '无法创建隧道，可能是表单没有填写完整，或者服务器不接受此端口（端口被占用或者不在范围内）'
       })
+  }
+</script>
+<script>
+  export default {
+    data: () => ({ drawer: null }),
   }
 </script>
