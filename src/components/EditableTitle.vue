@@ -1,5 +1,6 @@
 <template>
   <h3><input v-model="title" @change="change(title)" /></h3>
+  
 </template>
 
 <script setup>

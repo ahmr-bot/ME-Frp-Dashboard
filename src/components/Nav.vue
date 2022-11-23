@@ -169,6 +169,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -186,5 +187,13 @@
     http.get('/users').then((res) => {
       store.commit('updateUser', res.data)
     })
+  }
+</script>
+
+
+
+<script>
+  export default {
+    data: () => ({ drawer: null }),
   }
 </script>
