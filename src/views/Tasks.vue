@@ -1,85 +1,74 @@
 <template>
   <v-app id="inspire">
-  <!--appbar-->
+    <!--appbar-->
     <v-app-bar>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      expand-on-hover
-        rail
-        permanent
-    ><List />
+    <v-navigation-drawer v-model="drawer" expand-on-hover rail permanent>
+      <List />
     </v-navigation-drawer>
-      <!--appbarend-->
+    <!--appbarend-->
     <v-main>
       <v-container>
 
-          <template v-for="n in 1" :key="n">
-  <div>
-    <h3>任务</h3>
+        <template v-for="n in 1" :key="n">
+          <div>
+            <h3>任务</h3>
 
-    <p>当前的任务队列</p>
+            <p>当前的任务队列</p>
 
-    <div class="overflow-auto">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">主机名</th>
-            <!-- <th scope="col">详情</th> -->
-            <!-- <th scope="col">进度</th> -->
-            <th scope="col">状态</th>
-            <th scope="col">开始于</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="task in tasks">
-            <td>
-              <span v-if="task.host">
-                {{ task.host.name }}
-              </span>
-              <span v-else class="text-danger">
-                <i class="bi bi-trash"></i>
-                已删除的主机
-              </span>
-            </td>
-            <td class="text-nowrap">
-              <span v-if="task.status == 'pending'">
-                <i class="bi bi-clock"></i>&nbsp;</span
-              >
-              <span v-else-if="task.status == 'error'">
-                <span class="text-danger">
-                  <i class="bi bi-x-circle"></i>
-                  &nbsp;错误
-                </span></span
-              >
-              <span v-else-if="task.status == 'cancelled'"> 已取消 </span>
-              <span v-else-if="task.status == 'processing'">
-                <div
-                  class="spinner-border text-primary spinner-border-sm"
-                  role="status"
-                >
-                  <span class="visually-hidden"></span>
-                </div>
-              </span>
-              <span v-else-if="task.status == 'need_operation'">
-                需要操作
-              </span>
-              <span v-else-if="task.status == 'done'">
-                <i class="bi bi-check-circle"></i>
-              </span>
-              <span v-else-if="task.status == 'success'">
-                <span class="text-success"
-                  ><i class="bi bi-check-circle"></i
-                ></span>
-              </span>
+            <div class="overflow-auto">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">主机名</th>
+                    <!-- <th scope="col">详情</th> -->
+                    <!-- <th scope="col">进度</th> -->
+                    <th scope="col">状态</th>
+                    <th scope="col">开始于</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="task in tasks">
+                    <td>
+                      <span v-if="task.host">
+                        {{ task.host.name }}
+                      </span>
+                      <span v-else class="text-danger">
+                        <i class="bi bi-trash"></i>
+                        已删除的主机
+                      </span>
+                    </td>
+                    <td class="text-nowrap">
+                      <span v-if="task.status == 'pending'">
+                        <i class="bi bi-clock"></i>&nbsp;</span>
+                      <span v-else-if="task.status == 'error'">
+                        <span class="text-danger">
+                          <i class="bi bi-x-circle"></i>
+                          &nbsp;错误
+                        </span></span>
+                      <span v-else-if="task.status == 'cancelled'"> 已取消 </span>
+                      <span v-else-if="task.status == 'processing'">
+                        <div class="spinner-border text-primary spinner-border-sm" role="status">
+                          <span class="visually-hidden"></span>
+                        </div>
+                      </span>
+                      <span v-else-if="task.status == 'need_operation'">
+                        需要操作
+                      </span>
+                      <span v-else-if="task.status == 'done'">
+                        <i class="bi bi-check-circle"></i>
+                      </span>
+                      <span v-else-if="task.status == 'success'">
+                        <span class="text-success"><i class="bi bi-check-circle"></i></span>
+                      </span>
 
-              {{ task.title }}
-            </td>
-            <!-- <td width="30%">
+                      {{ task.title }}
+                    </td>
+                    <!-- <td width="30%">
               <div class="mt-1">
                 <div class="progress" v-if="task.status == 'processing'">
                   <div
@@ -133,7 +122,7 @@
                 </div>
               </div>
             </td> -->
-            <!-- <td class="text-nowrap">
+                    <!-- <td class="text-nowrap">
               <span v-if="task.status == 'pending'">
                 <i class="bi bi-clock"></i>&nbsp;等待中</span
               >
@@ -164,52 +153,52 @@
                 >
               </span>
             </td> -->
-            <td>{{ new Date(task.updated_at).toLocaleTimeString() }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</template>
-   
-  </v-container>
-</v-main>
-</v-app>
+                    <td>{{ new Date(task.updated_at).toLocaleTimeString() }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </template>
+
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
- import List from '../components/list.vue'
-  import http from '../api/http'
-  import echo from '../plugins/echo'
-  import store from '../plugins/store'
+import List from '../components/list.vue'
+import http from '../api/http'
+import echo from '../plugins/echo'
+import store from '../plugins/store'
 
-  import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-  const tasks = ref([])
+const tasks = ref([])
 
-  function refresh() {
-    http.get('/tasks').then((res) => {
-      tasks.value = res.data
-    })
-  }
-
-  refresh()
-
-  const private_channel = `users.${store.state.user.id}`
-
-  onMounted(() => {
-    echo.private(private_channel).listen('.user', (e) => {
-      console.log(e)
-      refresh()
-    })
+function refresh() {
+  http.get('/tasks').then((res) => {
+    tasks.value = res.data
   })
+}
 
-  onUnmounted(() => {
-    echo.leave(private_channel)
+refresh()
+
+const private_channel = `users.${store.state.user.id}`
+
+onMounted(() => {
+  echo.private(private_channel).listen('.user', (e) => {
+    console.log(e)
+    refresh()
   })
+})
+
+onUnmounted(() => {
+  echo.leave(private_channel)
+})
 </script>
 <script>
-  export default {
-    data: () => ({ drawer: 111 }),
-  }
+export default {
+  data: () => ({ drawer: 111 }),
+}
 </script>

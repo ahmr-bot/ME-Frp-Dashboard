@@ -16,17 +16,14 @@
       <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      temporary
-    >
+    <v-navigation-drawer v-model="drawer" temporary>
     </v-navigation-drawer>
 
   </v-app>
 </template>
 
 <script>
-  export default {
-    data: () => ({ drawer: null }),
-  }
+export default {
+  data: () => ({ drawer: null }),
+}
 </script>

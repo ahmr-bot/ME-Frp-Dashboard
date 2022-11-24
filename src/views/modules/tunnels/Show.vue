@@ -1,40 +1,21 @@
 <template>
-    <router-link class="btn btn-outline-primary" :to="{ name: 'modules.tunnels' }">
+  <router-link class="btn btn-outline-primary" :to="{ name: 'modules.tunnels' }">
     返回到 隧道相关
   </router-link>
   <div>
     <div v-if="loaded">
       <h3>
-        <input
-          class="editable"
-          v-model="tunnel.name"
-          @change="change()"
-          placeholder="隧道名称是必填项"
-        />
+        <input class="editable" v-model="tunnel.name" @change="change()" placeholder="隧道名称是必填项" />
       </h3>
 
       <div class="btn-group" role="group" aria-label="隧道控制按钮组">
-        <button
-          class="btn btn-outline-secondary"
-          v-show="canDelete"
-          @click="resetToken()"
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="你需要关闭客户端后，才能重置。"
-        >
+        <button class="btn btn-outline-secondary" v-show="canDelete" @click="resetToken()" type="button"
+          data-bs-toggle="tooltip" data-bs-placement="right" title="你需要关闭客户端后，才能重置。">
           重置 Token
         </button>
 
-        <button
-          class="btn btn-outline-danger"
-          v-show="canDelete"
-          @click="deleteTunnel()"
-          type="button"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="删除后，你将无法恢复该隧道。如果你的隧道没有停止，则你看不见删除按钮。"
-        >
+        <button class="btn btn-outline-danger" v-show="canDelete" @click="deleteTunnel()" type="button"
+          data-bs-toggle="tooltip" data-bs-placement="right" title="删除后，你将无法恢复该隧道。如果你的隧道没有停止，则你看不见删除按钮。">
           删除
         </button>
       </div>
@@ -69,10 +50,7 @@
       </div>
 
       <p v-if="tunnel.status == 'stopped'">
-        隧道已经停止，如果客户端还在运行，则会正常计费。<span
-          v-show="!canDelete"
-          >在客户端关闭大约1分钟左右，才可以删除隧道。</span
-        >
+        隧道已经停止，如果客户端还在运行，则会正常计费。<span v-show="!canDelete">在客户端关闭大约1分钟左右，才可以删除隧道。</span>
       </p>
 
       <p v-show="tunnel.today_traffic_in">
@@ -85,35 +63,20 @@
 
       <p class="mt-3">
         外部连接:
-        <span
-          v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="在新标签页打开"
-        >
-          <a
-            rel="noreferrer"
-            target="_blank"
-            :href="tunnel.protocol + '://' + tunnel.custom_domain"
-            class="text-decoration-none"
-          >
+        <span v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'" data-bs-toggle="tooltip"
+          data-bs-placement="right" title="在新标签页打开">
+          <a rel="noreferrer" target="_blank" :href="tunnel.protocol + '://' + tunnel.custom_domain"
+            class="text-decoration-none">
             {{ tunnel.protocol + '://' + tunnel.custom_domain }}
-            <i class="bi bi-box-arrow-up-right text-decoration-none"></i
-          ></a>
+            <i class="bi bi-box-arrow-up-right text-decoration-none"></i></a>
         </span>
 
-        <span
-          v-else
-          class="cursor-pointer"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="点击来复制"
-          @click="copy(tunnel.server.server_address + ':' + tunnel.remote_port)"
-        >
+        <span v-else class="cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="点击来复制"
+          @click="copy(tunnel.server.server_address + ':' + tunnel.remote_port)">
           {{
-            tunnel.server.server_address +
-            ':' +
-            tunnel.remote_port
+              tunnel.server.server_address +
+              ':' +
+              tunnel.remote_port
           }}
         </span>
       </p>
@@ -122,106 +85,63 @@
       <div class="mt-3">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button
-              class="nav-link active"
-              id="nav-tunnel-status-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#nav-tunnel-status"
-              type="button"
-              role="tab"
-              aria-controls="nav-tunnel-status"
-              aria-selected="true"
-            >
+            <button class="nav-link active" id="nav-tunnel-status-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-tunnel-status" type="button" role="tab" aria-controls="nav-tunnel-status"
+              aria-selected="true">
               隧道状态
             </button>
 
-            <button
-              class="nav-link"
-              id="nav-conf-all-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#nav-conf-all"
-              type="button"
-              role="tab"
-              aria-controls="nav-conf-all"
-              aria-selected="false"
-            >
+            <button class="nav-link" id="nav-conf-all-tab" data-bs-toggle="tab" data-bs-target="#nav-conf-all"
+              type="button" role="tab" aria-controls="nav-conf-all" aria-selected="false">
               配置文件
             </button>
 
-            <button
-              class="nav-link"
-              id="nav-conf-client-in-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#nav-conf-client-in"
-              type="button"
-              role="tab"
-              aria-controls="nav-conf-client-in"
-              aria-selected="false"
-            >
+            <button class="nav-link" id="nav-conf-client-in-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-conf-client-in" type="button" role="tab" aria-controls="nav-conf-client-in"
+              aria-selected="false">
               传入配置
             </button>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-          <div
-            class="tab-pane fade"
-            id="nav-conf-all"
-            role="tabpanel"
-            aria-labelledby="nav-conf-all-tab"
-          >
+          <div class="tab-pane fade" id="nav-conf-all" role="tabpanel" aria-labelledby="nav-conf-all-tab">
             <p class="mt-1">您可以随时更改<strong>本地 IP 和端口</strong>。</p>
-            <textarea class="w-100" rows="20" readonly
-              >{{ tunnel.config.server }} 
+            <textarea class="w-100" rows="20" readonly>{{ tunnel.config.server }} 
 
 # {{ tunnel.name }} 在 {{ tunnel.server.name }} 上
 # 请在截图时打码下一行信息。
-{{ tunnel.config.client }}</textarea
-            >
+{{ tunnel.config.client }}</textarea>
           </div>
-          <div
-            class="tab-pane fade"
-            id="nav-conf-server"
-            role="tabpanel"
-            aria-labelledby="nav-conf-server-tab"
-          >
+          <div class="tab-pane fade" id="nav-conf-server" role="tabpanel" aria-labelledby="nav-conf-server-tab">
             <p class="mt-1">您可以在同一个服务器中启动多个隧道。</p>
 
             <textarea class="w-100" rows="20" readonly>{{
-              tunnel.config.server
+                tunnel.config.server
             }}</textarea>
           </div>
-          <div
-            class="tab-pane fade"
-            id="nav-conf-client"
-            role="tabpanel"
-            aria-labelledby="nav-conf-client-tab"
-          >
+          <div class="tab-pane fade" id="nav-conf-client" role="tabpanel" aria-labelledby="nav-conf-client-tab">
             <p class="mt-1">您可以随时更改<strong>本地 IP 和端口</strong>。</p>
 
             <textarea class="w-100" rows="20" readonly>{{
-              '# ' +
-              tunnel.name +
-              ' 在 ' +
-              tunnel.server.name +
-              ' 上 ' +
-              '\n' +
-              tunnel.config.client
+                '# ' +
+                tunnel.name +
+                ' 在 ' +
+                tunnel.server.name +
+                ' 上 ' +
+                '\n' +
+                tunnel.config.client
             }}</textarea>
           </div>
 
-          <div
-            id="nav-tunnel-status"
-            class="tab-pane fade show active"
-            role="tabpanel"
-            aria-labelledby="nav-conf-client-tab"
-          >
+          <div id="nav-tunnel-status" class="tab-pane fade show active" role="tabpanel"
+            aria-labelledby="nav-conf-client-tab">
             <div class="mt-2">
               <div v-if="tunnel.tunnel">
                 <h4 class="mt-3">连接信息</h4>
 
 
                 <div class="p">
-                    域名解析到: {{ tunnel.server.server_address }}
+                  域名解析到: {{ tunnel.server.server_address }}
                 </div>
 
                 <div class="p">
@@ -237,14 +157,14 @@
                   <p v-show="tunnel.tunnel.today_traffic_in">
                     今日入流量:
                     {{
-                      tunnel.tunnel.today_traffic_in / 1024 / 1024 / 1024 ?? 0
+                        tunnel.tunnel.today_traffic_in / 1024 / 1024 / 1024 ?? 0
                     }}
                     GB
                   </p>
                   <p v-show="tunnel.tunnel.today_traffic_out">
                     今日出流量:
                     {{
-                      tunnel.tunnel.today_traffic_out / 1024 / 1024 / 1024 ?? 0
+                        tunnel.tunnel.today_traffic_out / 1024 / 1024 / 1024 ?? 0
                     }}
                     GB
                   </p>
@@ -255,12 +175,7 @@
           </div>
         </div>
 
-        <div
-          id="nav-conf-client-in"
-          class="tab-pane fade"
-          role="tabpanel"
-          aria-labelledby="nav-conf-client-in-tab"
-        >
+        <div id="nav-conf-client-in" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-conf-client-in-tab">
           <h4 class="mt-3">客户端传入配置</h4>
           <table class="table table-hover" v-if="tunnel.tunnel.conf">
             <thead>
@@ -317,26 +232,26 @@ const canDelete = ref(true)
 const showChart = ref(false)
 
 function refresh() {
-    http.get(url).then((res) => {
-        tunnel.value = res.data
-        loaded.value = true
+  http.get(url).then((res) => {
+    tunnel.value = res.data
+    loaded.value = true
 
-        if (tunnel.value.tunnel.length !== 0) {
-            if (tunnel.value.tunnel.status !== 'offline') {
-                canDelete.value = false
-            }
-        }
+    if (tunnel.value.tunnel.length !== 0) {
+      if (tunnel.value.tunnel.status !== 'offline') {
+        canDelete.value = false
+      }
+    }
 
-        if (tunnel.value.traffic.length !== 0) {
-            showChart.value = true
-            freshChart()
-        }
-    })
+    if (tunnel.value.traffic.length !== 0) {
+      showChart.value = true
+      freshChart()
+    }
+  })
 }
 refresh()
 
 function change() {
-    http.patch(url, { name: tunnel.value.name })
+  http.patch(url, { name: tunnel.value.name })
 }
 
 //   function stop() {
@@ -354,116 +269,116 @@ function change() {
 //   }
 
 function copy(text) {
-    navigator.clipboard.writeText(text)
+  navigator.clipboard.writeText(text)
 }
 
 function deleteTunnel() {
-    if (confirm('确定删除该隧道？')) {
-        http.delete(url).then(() => {
-            route.push({ name: 'modules.tunnels' })
-        })
-    }
+  if (confirm('确定删除该隧道？')) {
+    http.delete(url).then(() => {
+      route.push({ name: 'modules.tunnels' })
+    })
+  }
 }
 
 function resetToken() {
-    if (confirm('重置后，原来的配置文件将不能登录隧道。要继续吗？')) {
-        http.patch(url, { reset_token: true }).then(() => {
-            refresh()
-        })
-    }
+  if (confirm('重置后，原来的配置文件将不能登录隧道。要继续吗？')) {
+    http.patch(url, { reset_token: true }).then(() => {
+      refresh()
+    })
+  }
 }
 
 const option = ref({})
 
 function freshChart() {
-    if (showChart.value) {
-        let trafficInArr = tunnel.value.traffic.traffic_in
-        let trafficOutArr = tunnel.value.traffic.traffic_out
+  if (showChart.value) {
+    let trafficInArr = tunnel.value.traffic.traffic_in
+    let trafficOutArr = tunnel.value.traffic.traffic_out
 
-        trafficInArr = trafficInArr.reverse()
-        trafficOutArr = trafficOutArr.reverse()
-        let now = new Date()
-        now = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
-        let dates = new Array()
-        for (let i = 0; i < 7; i++) {
-            dates.push(
-                now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate()
-            )
-            now = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-        }
-
-        option.value = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow',
-                },
-                formatter: function (data) {
-                    let html = ''
-                    if (data.length = 0) {
-                        html += data[0].name + '<br/>'
-                    }
-                    for (let v of data) {
-                        let colorEl =
-                            '<span style="display:inline-block;margin-right:5px;' +
-                            'border-radius:10px;width:9px;height:9px;background-color:' +
-                            v.color +
-                            '"></span>'
-                        html +=
-                            colorEl +
-                            v.seriesName +
-                            ': ' +
-                            Humanize.fileSize(v.value) +
-                            '<br/>'
-                    }
-                    return html
-                },
-            },
-            legend: {
-                data: ['入站流量', '出站流量'],
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true,
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: dates,
-                },
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (value) {
-                            return Humanize.fileSize(value)
-                        },
-                    },
-                },
-            ],
-            series: [
-                {
-                    name: '入站流量',
-                    type: 'bar',
-                    data: trafficInArr,
-                },
-                {
-                    name: '出站流量',
-                    type: 'bar',
-                    data: trafficOutArr,
-                },
-            ],
-        }
+    trafficInArr = trafficInArr.reverse()
+    trafficOutArr = trafficOutArr.reverse()
+    let now = new Date()
+    now = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
+    let dates = new Array()
+    for (let i = 0; i < 7; i++) {
+      dates.push(
+        now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate()
+      )
+      now = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
     }
+
+    option.value = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow',
+        },
+        formatter: function (data) {
+          let html = ''
+          if (data.length = 0) {
+            html += data[0].name + '<br/>'
+          }
+          for (let v of data) {
+            let colorEl =
+              '<span style="display:inline-block;margin-right:5px;' +
+              'border-radius:10px;width:9px;height:9px;background-color:' +
+              v.color +
+              '"></span>'
+            html +=
+              colorEl +
+              v.seriesName +
+              ': ' +
+              Humanize.fileSize(v.value) +
+              '<br/>'
+          }
+          return html
+        },
+      },
+      legend: {
+        data: ['入站流量', '出站流量'],
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: dates,
+        },
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: function (value) {
+              return Humanize.fileSize(value)
+            },
+          },
+        },
+      ],
+      series: [
+        {
+          name: '入站流量',
+          type: 'bar',
+          data: trafficInArr,
+        },
+        {
+          name: '出站流量',
+          type: 'bar',
+          data: trafficOutArr,
+        },
+      ],
+    }
+  }
 }
 </script>
 
 <style scoped>
 .p p {
-    padding: 0;
-    margin: 1px;
+  padding: 0;
+  margin: 1px;
 }
 </style>

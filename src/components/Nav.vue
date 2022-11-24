@@ -2,22 +2,11 @@
   <div v-show="show">
     <nav class="navbar navbar-expand-md shadow-sm bg-body">
       <div class="container">
-        <router-link
-          class="navbar-brand text-auto lae-logo"
-          active-class="active"
-          to="/"
-        >
+        <router-link class="navbar-brand text-auto lae-logo" active-class="active" to="/">
         </router-link>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="切换导航"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
           <span class="bi bi-list text-auto fs-1"></span>
         </button>
 
@@ -25,79 +14,39 @@
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                to="/"
-                >首页</router-link
-              >
+              <router-link class="nav-link text-auto" active-class="active" to="/">首页</router-link>
             </li>
             <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                :to="{ name: 'modules.tunnels' }"
-                >隧道列表</router-link
-              >
+              <router-link class="nav-link text-auto" active-class="active" :to="{ name: 'modules.tunnels' }">隧道列表
+              </router-link>
             </li>
             <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                :to="{ name: 'modules.tunnels.compact' }"
-                >配置文件</router-link
-              >
+              <router-link class="nav-link text-auto" active-class="active" :to="{ name: 'modules.tunnels.compact' }">
+                配置文件</router-link>
             </li>
-         <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                :to="{ name: 'modules.tunnels.download' }"
-                >软件下载</router-link
-              >
+            <li class="nav-item">
+              <router-link class="nav-link text-auto" active-class="active" :to="{ name: 'modules.tunnels.download' }">
+                软件下载</router-link>
             </li>
           </ul>
 
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a
-                class="nav-link text-auto"
-                target="_blank"
-                href="https://forum.laecloud.com"
-                >社区</a
-              >
+              <a class="nav-link text-auto" target="_blank" href="https://forum.laecloud.com">社区</a>
             </li>
             <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                :to="{ name: 'servers' }"
-                >状态</router-link
-              >
+              <router-link class="nav-link text-auto" active-class="active" :to="{ name: 'servers' }">状态</router-link>
             </li>
             <li class="nav-item">
-              <router-link
-                class="nav-link text-auto"
-                active-class="active"
-                :to="{ name: 'tasks' }"
-                >任务</router-link
-              >
+              <router-link class="nav-link text-auto" active-class="active" :to="{ name: 'tasks' }">任务</router-link>
             </li>
 
             <li class="nav-item">
-              <a
-                class="nav-link text-auto cursor-pointer"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasUserRight"
-                aria-controls="offcanvasUserRight"
-                @click.prevent="refresh_user()"
-              >
+              <a class="nav-link text-auto cursor-pointer" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasUserRight" aria-controls="offcanvasUserRight" @click.prevent="refresh_user()">
                 {{ store.state.user.name }}
-                <i
-                  class="bi bi-layout-sidebar-inset-reverse position-relative"
-                  style="top: 0.5px"
-                ></i>
+                <i class="bi bi-layout-sidebar-inset-reverse position-relative" style="top: 0.5px"></i>
               </a>
             </li>
           </ul>
@@ -106,22 +55,12 @@
     </nav>
   </div>
 
-  <div
-    class="offcanvas offcanvas-end"
-    tabindex="-1"
-    id="offcanvasUserRight"
-    aria-labelledby="offcanvasUserRightLabel"
-  >
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUserRight" aria-labelledby="offcanvasUserRightLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasUserRightLabel">
         {{ store.state.user.name }} # {{ store.state.user.id }}
       </h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body position-relative">
       <div class="mt-3">
@@ -129,43 +68,27 @@
         <div>余额: {{ store.state.user.balance }} 元</div>
         <div>
           交易记录:
-          <router-link class="text-auto" :to="{ name: 'billing.transactions' }"
-            >浏览列表</router-link
-          >
+          <router-link class="text-auto" :to="{ name: 'billing.transactions' }">浏览列表</router-link>
         </div>
 
         <div>
           充值余额:
-          <router-link class="text-auto" :to="{ name: 'billing.charge' }"
-            >充值</router-link
-          >
+          <router-link class="text-auto" :to="{ name: 'billing.charge' }">充值</router-link>
         </div>
       </div>
 
       <div class="mt-5">
         <h4>计费项目列表</h4>
-        <router-link class="text-auto" :to="{ name: 'hosts' }"
-          >计费项目列表</router-link
-        >
+        <router-link class="text-auto" :to="{ name: 'hosts' }">计费项目列表</router-link>
       </div>
 
       <div class="mt-5">
         <h4>您的工单</h4>
-        <router-link class="text-auto" :to="{ name: 'work-orders' }"
-          >工单列表</router-link
-        >
+        <router-link class="text-auto" :to="{ name: 'work-orders' }">工单列表</router-link>
       </div>
 
-      <div
-        class="btn-group position-absolute rounded-0"
-        style="bottom: 0; left: 0; right: 0"
-      >
-        <router-link
-          class="btn btn-danger rounded-0"
-          active-class="active"
-          :to="{ name: 'login' }"
-          >更换账号</router-link
-        >
+      <div class="btn-group position-absolute rounded-0" style="bottom: 0; left: 0; right: 0">
+        <router-link class="btn btn-danger rounded-0" active-class="active" :to="{ name: 'login' }">更换账号</router-link>
       </div>
     </div>
   </div>
@@ -173,27 +96,27 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
-  //   import app from '../config/app'
-  import http from '../api/http'
-  import store from '../plugins/store'
+import { ref } from 'vue'
+//   import app from '../config/app'
+import http from '../api/http'
+import store from '../plugins/store'
 
-  const show = ref(true)
-  if (store.state.token == null) {
-    show.value = false
-  }
+const show = ref(true)
+if (store.state.token == null) {
+  show.value = false
+}
 
-  function refresh_user() {
-    http.get('/users').then((res) => {
-      store.commit('updateUser', res.data)
-    })
-  }
+function refresh_user() {
+  http.get('/users').then((res) => {
+    store.commit('updateUser', res.data)
+  })
+}
 </script>
 
 
 
 <script>
-  export default {
-    data: () => ({ drawer: null }),
-  }
+export default {
+  data: () => ({ drawer: null }),
+}
 </script>

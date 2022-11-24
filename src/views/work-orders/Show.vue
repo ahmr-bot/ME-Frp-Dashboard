@@ -1,156 +1,148 @@
 <template>
   <v-app id="inspire">
-  <!--appbar-->
+    <!--appbar-->
     <v-app-bar>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      expand-on-hover
-        rail
-        permanent
-    ><List />
+    <v-navigation-drawer v-model="drawer" expand-on-hover rail permanent>
+      <List />
     </v-navigation-drawer>
-      <!--appbarend-->
+    <!--appbarend-->
     <v-main>
       <v-container>
 
-          <template v-for="n in 1" :key="n">
-  <div>
-    <h3 v-text="workOrder.title"></h3>
+        <template v-for="n in 1" :key="n">
+          <div>
+            <h3 v-text="workOrder.title"></h3>
 
-    <div class="markdown-preview">
-      <v-md-editor v-model="workOrder.content" mode="preview"></v-md-editor>
-    </div>
-  </div>
+            <div class="markdown-preview">
+              <v-md-editor v-model="workOrder.content" mode="preview"></v-md-editor>
+            </div>
+          </div>
 
-  <WorkOrderStatus :status="workOrder.status" />
+          <WorkOrderStatus :status="workOrder.status" />
 
-  <div class="mt-3">
-    <!-- replies -->
-    <h4>对话记录</h4>
-    <template v-for="reply in replies">
-      <div class="card border-light mb-3 markdown-preview shadow">
-        <div class="card-header">
-          <span v-if="reply.user_id == null" class="text-primary">
-            提供方
-          </span>
-          <span v-else> 您 </span>
-          <span class="text-end">
-            {{ new Date(reply.created_at).toLocaleString() }}
-          </span>
-        </div>
-        <div class="card-body">
-          <v-md-editor v-model="reply.content" mode="preview"></v-md-editor>
-        </div>
-      </div>
-    </template>
-  </div>
+          <div class="mt-3">
+            <!-- replies -->
+            <h4>对话记录</h4>
+            <template v-for="reply in replies">
+              <div class="card border-light mb-3 markdown-preview shadow">
+                <div class="card-header">
+                  <span v-if="reply.user_id == null" class="text-primary">
+                    提供方
+                  </span>
+                  <span v-else> 您 </span>
+                  <span class="text-end">
+                    {{ new Date(reply.created_at).toLocaleString() }}
+                  </span>
+                </div>
+                <div class="card-body">
+                  <v-md-editor v-model="reply.content" mode="preview"></v-md-editor>
+                </div>
+              </div>
+            </template>
+          </div>
 
-  <div class="mt-5">
-    <h4>回复</h4>
-    <v-md-editor
-      v-model="reply.content"
-      height="500px"
-      placeholder="继续跟进问题。如果问题已解决，请关闭工单。"
-    ></v-md-editor>
+          <div class="mt-5">
+            <h4>回复</h4>
+            <v-md-editor v-model="reply.content" height="500px" placeholder="继续跟进问题。如果问题已解决，请关闭工单。"></v-md-editor>
 
-    <!-- btn -->
-    <div class="btn-group mt-4" role="group" aria-label="Basic example">
-      <button class="btn btn-outline-primary" @click="replyWorkOrder">回复</button>
-      <button class="btn btn-danger" @click="closeWorkOrder">关闭</button>
-    </div>
-  </div>
+            <!-- btn -->
+            <div class="btn-group mt-4" role="group" aria-label="Basic example">
+              <button class="btn btn-outline-primary" @click="replyWorkOrder">回复</button>
+              <button class="btn btn-danger" @click="closeWorkOrder">关闭</button>
+            </div>
+          </div>
 
-  <div class="mt-2">
-    <WorkOrderStatus :status="workOrder.status" />
-  </div>
-</template>
-   
-  </v-container>
-</v-main>
-</v-app>
+          <div class="mt-2">
+            <WorkOrderStatus :status="workOrder.status" />
+          </div>
+        </template>
+
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
 import List from '../../components/list.vue'
-  import { useRoute } from 'vue-router'
-  import { ref, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { ref, onUnmounted } from 'vue'
 
-  import hljs from 'highlight.js'
-  import VMdEditor from '@kangc/v-md-editor'
-  import '@kangc/v-md-editor/lib/style/base-editor.css'
-  import githubTheme from '@kangc/v-md-editor/lib/theme/github.js'
-  import '@kangc/v-md-editor/lib/theme/style/github.css'
-  import http from '../../api/http'
-  import WorkOrderStatus from '../../components/WorkOrderStatus.vue'
+import hljs from 'highlight.js'
+import VMdEditor from '@kangc/v-md-editor'
+import '@kangc/v-md-editor/lib/style/base-editor.css'
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js'
+import '@kangc/v-md-editor/lib/theme/style/github.css'
+import http from '../../api/http'
+import WorkOrderStatus from '../../components/WorkOrderStatus.vue'
 
-  const router = useRoute()
-  const loaded = ref(false)
+const router = useRoute()
+const loaded = ref(false)
 
-  VMdEditor.use(githubTheme, {
-    Hljs: hljs,
+VMdEditor.use(githubTheme, {
+  Hljs: hljs,
+})
+
+const workOrder = ref({
+  title: '工单',
+  content: '### Content',
+})
+
+const replies = ref([])
+
+const reply = ref({
+  content: '',
+})
+
+function refresh() {
+  http.get('/work-orders/' + router.params.id).then((res) => {
+    workOrder.value = res.data
+    loaded.value = true
   })
 
-  const workOrder = ref({
-    title: '工单',
-    content: '### Content',
+  http.get('/work-orders/' + router.params.id + '/replies').then((res) => {
+    replies.value = res.data
   })
+}
 
-  const replies = ref([])
+refresh()
 
-  const reply = ref({
-    content: '',
-  })
+// auto refresh
+const interval = setInterval(refresh, 10000)
 
-  function refresh() {
-    http.get('/work-orders/' + router.params.id).then((res) => {
-      workOrder.value = res.data
-      loaded.value = true
+onUnmounted(() => {
+  clearInterval(interval)
+})
+
+function replyWorkOrder() {
+  http
+    .post('/work-orders/' + router.params.id + '/replies', reply.value)
+    .then(() => {
+      refresh()
     })
+}
 
-    http.get('/work-orders/' + router.params.id + '/replies').then((res) => {
-      replies.value = res.data
+function closeWorkOrder() {
+  http
+    .patch('/work-orders/' + router.params.id, { status: 'closed' })
+    .then(() => {
+      refresh()
     })
-  }
-
-  refresh()
-
-  // auto refresh
-  const interval = setInterval(refresh, 10000)
-
-  onUnmounted(() => {
-    clearInterval(interval)
-  })
-
-  function replyWorkOrder() {
-    http
-      .post('/work-orders/' + router.params.id + '/replies', reply.value)
-      .then(() => {
-        refresh()
-      })
-  }
-
-  function closeWorkOrder() {
-    http
-      .patch('/work-orders/' + router.params.id, { status: 'closed' })
-      .then(() => {
-        refresh()
-      })
-  }
+}
 </script>
 
 <style>
-  .markdown-preview .github-markdown-body {
-    padding: 0;
-    background-color: var(--bs-body-bg) !important;
-  }
+.markdown-preview .github-markdown-body {
+  padding: 0;
+  background-color: var(--bs-body-bg) !important;
+}
 </style>
 <script>
-  export default {
-    data: () => ({ drawer: 111 }),
-  }
+export default {
+  data: () => ({ drawer: 111 }),
+}
 </script>

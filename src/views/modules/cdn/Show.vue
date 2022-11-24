@@ -14,67 +14,36 @@
 
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button
-            class="nav-link active"
-            id="pills-basic-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#pills-basic"
-            type="button"
-            role="tab"
-            aria-controls="pills-basic"
-            aria-selected="true"
-          >
+          <button class="nav-link active" id="pills-basic-tab" data-bs-toggle="pill" data-bs-target="#pills-basic"
+            type="button" role="tab" aria-controls="pills-basic" aria-selected="true">
             基本配置
           </button>
         </li>
         <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-cache-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#pills-cache"
-            type="button"
-            role="tab"
-            aria-controls="pills-feature"
-            aria-selected="false"
-          >
+          <button class="nav-link" id="pills-cache-tab" data-bs-toggle="pill" data-bs-target="#pills-cache"
+            type="button" role="tab" aria-controls="pills-feature" aria-selected="false">
             缓存配置
           </button>
         </li>
         <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-template-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#pills-template"
-            type="button"
-            role="tab"
-            aria-controls="pills-template"
-            aria-selected="false"
-          >
+          <button class="nav-link" id="pills-template-tab" data-bs-toggle="pill" data-bs-target="#pills-template"
+            type="button" role="tab" aria-controls="pills-template" aria-selected="false">
             重设模板
           </button>
         </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div
-          class="tab-pane fade show active"
-          id="pills-basic"
-          role="tabpanel"
-          aria-labelledby="pills-basic-tab"
-        >
+        <div class="tab-pane fade show active" id="pills-basic" role="tabpanel" aria-labelledby="pills-basic-tab">
           <div class="row row-cols-3 w-75">
             <div class="col">CNAME</div>
             <div class="col">
-              <span
-                v-text="
-                  site.cname_hostname +
-                  '.' +
-                  site.cname_hostname2 +
-                  '.' +
-                  site.cname_domain
-                "
-              ></span>
+              <span v-text="
+                site.cname_hostname +
+                '.' +
+                site.cname_hostname2 +
+                '.' +
+                site.cname_domain
+              "></span>
             </div>
           </div>
 
@@ -87,12 +56,7 @@
         </div>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="pills-cache"
-        role="tabpanel"
-        aria-labelledby="pills-cache-tab"
-      >
+      <div class="tab-pane fade" id="pills-cache" role="tabpanel" aria-labelledby="pills-cache-tab">
         2
       </div>
     </div>
@@ -104,36 +68,36 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
-  import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-  import http from '../../../api/http'
+import http from '../../../api/http'
 
-  //   const site = ref({
-  //     host: {
-  //       name: '',
-  //     },
-  //     site: {
-  //       sync_state: '',
-  //     },
-  //   })
+//   const site = ref({
+//     host: {
+//       name: '',
+//     },
+//     site: {
+//       sync_state: '',
+//     },
+//   })
 
-  const host = ref({})
-  const site = ref(false)
+const host = ref({})
+const site = ref(false)
 
-  const router = useRoute()
+const router = useRoute()
 
-  http.get('/modules/cdn/hosts/' + router.params.id).then((res) => {
-    site.value = res.data.site
-    host.value = res.data.host
-  })
+http.get('/modules/cdn/hosts/' + router.params.id).then((res) => {
+  site.value = res.data.site
+  host.value = res.data.host
+})
 
 
-  function update() {
-    http
-      .put('/modules/cdn/hosts/' + router.params.id, site.value)
-      .then((res) => {
-        console.log(res)
-      })
-  }
+function update() {
+  http
+    .put('/modules/cdn/hosts/' + router.params.id, site.value)
+    .then((res) => {
+      console.log(res)
+    })
+}
 </script>

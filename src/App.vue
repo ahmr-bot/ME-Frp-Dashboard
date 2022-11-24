@@ -10,15 +10,15 @@
 
   <div>
     <div class="background-container"></div>
-    
+
     <!-- <Modals /> -->
     <Layout />
   </div>
 </template>
 
 <script setup>
-  import Layout from './components/Layout.vue'
-  import Nav from './components/Nav.vue'
+import Layout from './components/Layout.vue'
+import Nav from './components/Nav.vue'
   // import Modals from './components/Modals.vue';
   //   import app from './config/app'
 
@@ -34,10 +34,10 @@
 </script>
 
 <style>
-  .editable {
-    border: 0;
-    outline: 0;
-    background: transparent;
-    width: 100%;
-  }
+.editable {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 100%;
+}
 </style>

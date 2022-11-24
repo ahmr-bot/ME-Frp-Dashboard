@@ -36,35 +36,35 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
-  import http from '../../../api/http'
-  import route from '../../../plugins/router'
+import { ref } from 'vue'
+import http from '../../../api/http'
+import route from '../../../plugins/router'
 
-  const cdn = ref({
-    domain: '',
-  })
+const cdn = ref({
+  domain: '',
+})
 
-  const packages = ref({})
+const packages = ref({})
 
-  http.get('/modules/cdn/packages').then((res) => {
-    packages.value = res.data
+http.get('/modules/cdn/packages').then((res) => {
+  packages.value = res.data
 
-    // get first key
-    cdn.value.package_id = Object.keys(res.data)[0]
-  })
+  // get first key
+  cdn.value.package_id = Object.keys(res.data)[0]
+})
 
-  function create() {
-    http
-      .post('/modules/cdn/hosts', cdn.value)
-      .then((res) => {
-        // if status is 200
-        if (res.status === 200) {
-          // redirect to cdn list
-          route.push({ name: 'modules.cdn' })
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+function create() {
+  http
+    .post('/modules/cdn/hosts', cdn.value)
+    .then((res) => {
+      // if status is 200
+      if (res.status === 200) {
+        // redirect to cdn list
+        route.push({ name: 'modules.cdn' })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
 </script>
