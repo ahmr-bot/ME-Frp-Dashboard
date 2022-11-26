@@ -5,6 +5,9 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
+      <v-list>
+    <v-list-item prepend-icon="login" title="如果长时间白屏，请点击此处来登录" :to="{ name: 'login' }"></v-list-item>
+  </v-list>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" expand-on-hover rail permanent>
@@ -25,10 +28,12 @@
               <v-card-text>
                 <div>隧道数量: ∞ 条</div>
                 <div>带宽: ∞ Mbps</div>
-                <div>余额: {{ store.state.user.balance }} 元</div>
+                <div>余额: {{ store.state.user.balance }} 元(莱云 账户余额 需保证有1元)</div>
                 <router-link class="text-auto" :to="{ name: 'billing.transactions' }"> 交易记录</router-link><br />
                 <router-link class="text-auto" :to="{ name: 'billing.charge' }">充值</router-link><br />
                 <router-link :to="{ name: 'login' }">更换账号</router-link>
+                <div>Aehxy 运营/策划</div>
+                <div><a href="https://dash.laecloud.com">莱云 所有</a></div>
               </v-card-text>
             </v-card>
             <br />
@@ -83,7 +88,8 @@ echarts.use([GraphicComponent, SVGRenderer])
 const pinned = ref([])
 const base_url = ref('')
 const show = ref(false)
-
+const loginstatus = ref({})
+loginstatus.value = false
 http.get('forum/pinned').then((res) => {
   pinned.value = res.data
 
