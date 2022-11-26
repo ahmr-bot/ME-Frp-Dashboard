@@ -37,6 +37,15 @@
               </v-card-text>
             </v-card>
             <br />
+            <v-card text="赞助">
+            <v-card-text>
+              <div>MirrorEdge 属于 纯公益服务, 不限带宽/流量/隧道，即便是加上防止滥用的1块钱，也是根本不能盈利的，做这么久的免费服务也纯纯靠良心，所以，如果你觉得 镜缘映射 是个好服务</div>
+              <div>那么就请尽您的绵薄之力，助我们走的更久吧！</div>
+              <v-btn class="bg-blue" href="https://afdian.net/a/aehxy">赞助(现金)</v-btn>
+              <div>服务器赞助请联系 1878832944</div>
+            </v-card-text>
+          </v-card>
+          <br />
             <v-card text="公告">
               <v-card-text>
                 <div v-show="base_url">

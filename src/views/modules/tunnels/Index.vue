@@ -98,12 +98,19 @@
               <label for="floatingName">本地 地址和端口</label>
             </div>
 
-            <!-- 选择协议 -->
             <div class="form-floating mb-3">
-              <v-select clearable label="Select" id="floatingProtocol" v-model="createTunnel.protocol"
-                :items="['tcp', 'udp', 'http', 'https']" variant="solo"></v-select>
-
-            </div>
+            <select
+              class="form-control"
+              id="floatingProtocol"
+              v-model="createTunnel.protocol"
+            >
+              <option value="http">HTTP</option>
+              <option value="https">HTTPS</option>
+              <option value="tcp">TCP</option>
+              <option value="udp">UDP</option>
+            </select>
+            <label for="floatingProtocol">协议</label>
+          </div>
 
             <!-- 选择服务器 -->
             <div class="form-floating mb-3" v-show="createTunnel.protocol == 'tcp'">

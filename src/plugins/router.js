@@ -116,9 +116,9 @@ const routes = [
         component: () => import('../views/modules/tunnels/Show.vue'),
       },
       {
-        path: 'gct',
-        name: 'modules.gct',
-        component: () => import('../views/modules/gct/Index.vue'),
+        path: 'tunnels/zanzhu',
+        name: 'modules.tunnels.zanzhu',
+        component: () => import('../views/modules/tunnels/zanzhu.vue'),
       },
       {
         path: 'gct/create',
