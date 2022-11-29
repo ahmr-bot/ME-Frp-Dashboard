@@ -26,7 +26,7 @@
           </p>
           <div class="mt-3">
             <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
-              <v-btn type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+              <v-btn type="button" class="btn btn-outline-primary"  data-bs-toggle="modal"
                 data-bs-target="#createTunnelModel" @click="
                   function () {
                     getServers()
@@ -331,10 +331,17 @@ createTunnel.value.name = randomString(10)
 //     // get first key
 //     cdn.value.package_id = Object.keys(res.data)[0]
 //   })
-
+const tunnelcount = ref({})
 http.get('/modules/frp/hosts').then((res) => {
   tunnels.value = res.data
+  tunnelcount.value = JSONLength(res.data)
 })
+function JSONLength(obj) {
+var size = 0, key;
+for (key in obj) {
+if (obj.hasOwnProperty(key)) size++;
+}return size;
+};
 
 http.get('/modules/frp/traffics').then((res) => {
   traffics.value = res.data
@@ -391,6 +398,8 @@ function randomRemotePort() {
 }
 
 function create() {
+  if (tunnelcount <= 3)
+  {
   http
     .post('/modules/frp/hosts', createTunnel.value)
     .then((res) => {
@@ -408,7 +417,9 @@ function create() {
         }
 
         createTunnel.value.name += ' - ' + createTunnel.value.protocol
+       if (tunnelcount <= 3) {
 
+       }
         http.post('/modules/frp/hosts', createTunnel.value).then((res) => {
           http.get('/modules/frp/hosts').then((res) => {
             tunnels.value = res.data
@@ -435,8 +446,11 @@ function create() {
     })
     .catch((status, message) => {
       tunnelCreateError.value =
-        '无法创建隧道，可能是表单没有填写完整，或者服务器不接受此端口（端口被占用或者不在范围内）'
+        '无法创建隧道，也可能是表单没有填写完整，或者服务器不接受此端口（端口被占用或者不在范围内）'
     })
+  } else {
+    tunnelCreateError.value = '隧道数量已满或过量，无法创建隧道'
+  }
 }
 </script>
 <script>
