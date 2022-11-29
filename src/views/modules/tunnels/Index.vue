@@ -24,6 +24,7 @@
           <p v-show="traffics.free_traffic">
             您当前的可抵用流量: {{ traffics.free_traffic }} GB
           </p>
+          <p> 已创建隧道/隧道总数: {{ tunnelcount }} / 3 </p>
           <div class="mt-3">
             <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
               <v-btn type="button" class="btn btn-outline-primary"  data-bs-toggle="modal"

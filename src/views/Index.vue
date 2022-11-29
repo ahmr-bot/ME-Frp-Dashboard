@@ -26,9 +26,9 @@
             <v-card text="用户信息">
               <v-card-subtitle>{{ store.state.user.name }}</v-card-subtitle>
               <v-card-text>
-                <div>隧道数量: ∞ 条</div>
+                <div>隧道数量: 3 条</div>
                 <div>带宽: ∞ Mbps</div>
-                <div>余额: {{ store.state.user.balance }} 元(莱云 账户余额 需保证有1元)</div>
+                <div>余额: {{ store.state.user.balance }} 元（莱云账户余额 目前没啥用）</div>
                 <router-link class="text-auto" :to="{ name: 'billing.transactions' }"> 交易记录</router-link><br />
                 <router-link class="text-auto" :to="{ name: 'billing.charge' }">充值</router-link><br />
                 <router-link :to="{ name: 'login' }">更换账号</router-link>
