@@ -290,7 +290,7 @@ const tunnelCreateError = ref(false)
 //   const packages = ref({})
 
 const cdn = ref({})
-
+const tunnelcount = ref({})
 const selectedServer = ref({
   name: null,
 })
@@ -332,17 +332,10 @@ createTunnel.value.name = randomString(10)
 //     // get first key
 //     cdn.value.package_id = Object.keys(res.data)[0]
 //   })
-const tunnelcount = ref({})
 http.get('/modules/frp/hosts').then((res) => {
   tunnels.value = res.data
   tunnelcount.value = JSONLength(res.data)
 })
-function JSONLength(obj) {
-var size = 0, key;
-for (key in obj) {
-if (obj.hasOwnProperty(key)) size++;
-}return size;
-};
 
 http.get('/modules/frp/traffics').then((res) => {
   traffics.value = res.data
@@ -397,10 +390,14 @@ function randomRemotePort() {
     )
   }
 }
-
-function create() {
-  if (tunnelcount <= 3)
-  {
+function JSONLength(obj) {
+  var size = 0, key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) size++;
+  } return size;
+  };
+  function create() {
+    if (JSONLength(tunnels.value) < 3) {
   http
     .post('/modules/frp/hosts', createTunnel.value)
     .then((res) => {
@@ -418,9 +415,6 @@ function create() {
         }
 
         createTunnel.value.name += ' - ' + createTunnel.value.protocol
-       if (tunnelcount <= 3) {
-
-       }
         http.post('/modules/frp/hosts', createTunnel.value).then((res) => {
           http.get('/modules/frp/hosts').then((res) => {
             tunnels.value = res.data
