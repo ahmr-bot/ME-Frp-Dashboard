@@ -1,7 +1,15 @@
+<!--
+ * @Author: ahmr-bot ahmrcxy@gmail.com
+ * @Date: 2022-11-18 21:45:19
+ * @LastEditors: ahmr-bot ahmrcxy@gmail.com
+ * @LastEditTime: 2022-12-06 12:28:43
+ * @FilePath: \lae-ui\src\views\work-orders\Index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -47,8 +55,8 @@
 
           <div>
             <div class="btn-group" role="group">
-              <router-link type="button" class="btn btn-outline-primary" :to="{ name: 'work-orders.create' }">提交工单
-              </router-link>
+              <v-btn color="primary" type="button" class="btn btn-outline-primary" :to="{ name: 'work-orders.create' }">提交工单
+              </v-btn>
             </div>
           </div>
         </template>

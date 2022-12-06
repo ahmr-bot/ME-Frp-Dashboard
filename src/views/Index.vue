@@ -1,13 +1,12 @@
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
-      <v-list>
     <v-list-item prepend-icon="login" title="如果长时间白屏，请点击此处来登录" :to="{ name: 'login' }"></v-list-item>
-  </v-list>
+
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" expand-on-hover rail permanent>
@@ -21,9 +20,13 @@
           <div v-show="!show" style="width: 100%; height: 500px" id="chart-container"></div>
 
           <div class="mb-2" v-show="show">
-            <v-alert type="success" color="info" title="Welcome！" variant="tonal">欢迎使用 MirrorEdge 镜缘映射</v-alert>
+            <v-alert  type="success" color="primary" title="Welcome！" variant="tonal">欢迎使用 MirrorEdge 镜缘映射</v-alert>
             <br />
-            <v-card text="用户信息">
+            <v-row
+      class="mb-6"
+      no-gutters
+    >         <v-col  cols="5.5">
+            <v-card stext="用户信息">
               <v-card-subtitle>{{ store.state.user.name }}</v-card-subtitle>
               <v-card-text>
                 <div>隧道数量: 3 条</div>
@@ -31,20 +34,30 @@
                 <div>余额: {{ store.state.user.balance }} 元（莱云账户余额 目前没啥用）</div>
                 <router-link class="text-auto" :to="{ name: 'billing.transactions' }"> 交易记录</router-link><br />
                 <router-link class="text-auto" :to="{ name: 'billing.charge' }">充值</router-link><br />
-                <router-link :to="{ name: 'login' }">更换账号</router-link>
                 <div>Aehxy 运营/策划</div>
                 <div><a href="https://dash.laecloud.com">莱云 所有</a></div>
               </v-card-text>
             </v-card>
-            <br />
-            <v-card text="赞助">
+           <br />
+                  <v-card text="赞助">
             <v-card-text>
-              <div>MirrorEdge 属于 纯公益服务, 不限带宽/流量/隧道，即便是加上防止滥用的1块钱，也是根本不能盈利的，做这么久的免费服务也纯纯靠良心，所以，如果你觉得 镜缘映射 是个好服务</div>
+              <div>MirrorEdge 属于 纯公益服务, 不限带宽/流量，根本是不能盈利的，做这么久的免费服务也纯纯靠良心，所以，如果你觉得 镜缘映射 是个好服务</div>
               <div>那么就请尽您的绵薄之力，助我们走的更久吧！</div>
-              <v-btn class="bg-blue" href="https://afdian.net/a/aehxy">赞助(现金)</v-btn>
+              <v-btn color="primary" href="https://afdian.net/a/aehxy">赞助(现金)</v-btn>
               <div>服务器赞助请联系 1878832944</div>
             </v-card-text>
           </v-card>
+                </v-col>
+            <v-col  cols="2.5" offset="2.5">
+              <v-card href="https://dash.laecloud.com/modules/gct">
+                <v-card-text>
+                  <v-img width="300"  src="https://cdn.5-5.site/gct.png">
+            </v-img>
+                </v-card-text>
+                </v-card>
+                </v-col>
+              </v-row>
+            <br />
           <br />
             <v-card text="公告">
               <v-card-text>

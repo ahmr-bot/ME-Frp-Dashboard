@@ -9,7 +9,7 @@
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -26,16 +26,26 @@
           <h3 class="mt-3">整合配置文件</h3>
 
           <div class="mt-3"></div>
-          <select class="form-control" v-model="selectedServer" @change="getTunnels()">
+          
+          <select color="primary" class="form-control" v-model="selectedServer" @change="getTunnels()">
             <option value="0" selected>先选择一个服务器</option>
             <option v-for="server in servers" :value="server.id">
               {{ server.name }}
             </option>
           </select>
 
-          <h3 class="mt-3">配置文件</h3>
-
-          <textarea class="w-100" rows="50" readonly>{{ all_config }}</textarea>
+          <br />
+         <v-textarea 
+         :model-value="all_config"
+         counter
+         color="primary"
+         label="配置文件"
+         variant="outlined"
+         rows="60"
+         readonly
+        >
+         </v-textarea>
+         
         </template>
 
       </v-container>

@@ -2,13 +2,13 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-18 21:45:19
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-24 00:39:30
+ * @LastEditTime: 2022-12-06 12:05:52
  * @FilePath: \lae-ui\src\main.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './style.css';
+// import 'bootstrap-icons/font/bootstrap-icons.css';
+// import './style.css';
 
 import { createApp } from 'vue';
 import axios from 'axios';
@@ -31,8 +31,17 @@ const vuetify = createVuetify({
       md,
     },
   },
+  theme: {
+    themes: {
+      light: {
+        colors: {
+          primary: '#1867C0',
+          secondary: '#5CBBF6',
+        },
+      },
+    },
+  },
 })
-
 // import pangu from 'pangu';
 // import { useRoute } from 'vue-router';
 
