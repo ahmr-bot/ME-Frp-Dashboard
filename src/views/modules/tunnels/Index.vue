@@ -1,7 +1,6 @@
 <template>
   <v-app id="inspire">
-    <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -27,7 +26,7 @@
           <p> 已创建隧道/隧道总数: {{ tunnelcount }} / 3 </p>
           <div class="mt-3">
             <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
-              <v-btn type="button" class="btn btn-outline-primary"  data-bs-toggle="modal"
+              <v-btn type="button" color="primary" class="btn btn-outline-primary"  data-bs-toggle="modal"
                 data-bs-target="#createTunnelModel" @click="
                   function () {
                     getServers()
@@ -48,13 +47,13 @@
               <p class="mb-1">
                 <span v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'" data-bs-toggle="tooltip"
                   data-bs-placement="right" title="按住 Shift 或 Ctrl 来打开">隧道地址:
-                  <a rel="noreferrer" target="_blank" :href="tunnel.protocol + '://' + tunnel.custom_domain"
+                  <a color="primary" rel="noreferrer" target="_blank" :href="tunnel.protocol + '://' + tunnel.custom_domain"
                     class="text-decoration-none">
                     {{ tunnel.protocol + '://' + tunnel.custom_domain }}
                     <i class="bi bi-box-arrow-up-right text-decoration-none"></i></a>
                 </span>
 
-                <span v-else>隧道地址:<a rel="noreferrer" target="_blank" class="text-decoration-none">
+                <span v-else>隧道地址:<a color="primary" rel="noreferrer" target="_blank" class="text-decoration-none">
                     {{
                         tunnel.server.server_address +
                         ':' +
@@ -86,7 +85,7 @@
             <v-alert type="error" v-else-if="tunnelCreateError" class="alert alert-danger" role="alert">
               {{ tunnelCreateError }}
             </v-alert>
-            <v-alert type="info">
+            <v-alert color="primary" type="info">
               为了防止隧道被滥用，我们会不定期检查映射内容。
             </v-alert>
             <div class="form-floating mb-3">
@@ -168,7 +167,7 @@
               <!-- checkbox 同时创建 CDN -->
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" v-model="createTunnel.create_https" id="createHttps" />
-                <label class="form-check-label" for="createHttps">
+                <label class="form-check-label" color="primary" for="createHttps">
                   同时创建 HTTP(s) 隧道
                 </label>
               </div>
@@ -214,16 +213,16 @@
             </div>
 
             <p>
-              如果您继续，则代表同意了我们的<a target="_blank"
+              如果您继续，则代表同意了我们的<a target="_blank" color="primary"
                 href="https://forum.laecloud.com/d/6-jing-yuan-ying-she-shi-yong-tiao-kuan">使用条款</a>
             </p>
           </div>
 
           <div class="modal-footer">
-            <v-btn type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <v-btn color="primary" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               取消
             </v-btn>
-            <v-btn type="button" class="btn btn-primary" @click="create">
+            <v-btn color="primary" type="button" class="btn btn-primary" @click="create">
               创建
             </v-btn>
           </div>

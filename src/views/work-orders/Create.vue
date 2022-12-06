@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -64,9 +64,9 @@
               </v-md-editor>
             </div>
 
-            <button class="mt-3 btn btn-outline-primary" @click="submitWorkOrder()">
+            <v-btn color="primary" class="mt-3 btn btn-outline-primary" @click="submitWorkOrder()">
               提交工单
-            </button>
+            </v-btn>
           </div>
         </template>
 

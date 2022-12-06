@@ -2,14 +2,14 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-18 21:45:19
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-30 16:51:48
+ * @LastEditTime: 2022-11-30 20:11:25
  * @FilePath: \lae-ui\src\views\Servers.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -61,8 +61,8 @@
                         <v-list-item-title>&nbsp; {{ server.name }}</v-list-item-title>
                       </v-list-item>
                     </td>
-                    <td >{{ (server.meta.total_traffic_in/1024/1024/1024).toFixed(4) }} GB</td>
-                    <td>{{ (server.meta.total_traffic_out/1024/1024/1024).toFixed(4) }} GB</td>
+                    <td >{{ ((server.meta.total_traffic_in/1024/1024/1024) ?? 0).toFixed(4) }} GB</td>
+                    <td>{{ ((server.meta.total_traffic_out/1024/1024/1024) ?? 0).toFixed(4) }} GB</td>
                     <!-- <td>{{ new Date(server.updated_at).toLocaleString() }}</td> -->
                     <!-- <td>{{ new Date(server.created_at).toLocaleString() }}</td> -->
                   </tr>

@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <!--appbar-->
-    <v-app-bar>
+    <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>MirrorEdge Frp 控制面板</v-toolbar-title>
@@ -88,10 +88,10 @@
                     <td>{{ new Date(host.created_at).toLocaleString() }}</td>
                     <!-- <td>{{ new Date(host.updated_at).toLocaleString() }}</td> -->
                     <td>
-                      <a href="#" @click="deleteHost(host.id)">释放</a>
+                      <v-btn color="primary" href="#" @click="deleteHost(host.id)">释放</v-btn>
                       <span v-show="host.status == 'suspended' || host.status == 'stopped'">&nbsp;</span>
-                      <a v-show="host.status == 'suspended' || host.status == 'stopped'" href="#"
-                        @click="startHost(host.id)">启动</a>
+                      <v-btn color="primary" v-show="host.status == 'suspended' || host.status == 'stopped'" href="#"
+                        @click="startHost(host.id)">启动</v-btn>
                     </td>
                   </tr>
                 </tbody>
