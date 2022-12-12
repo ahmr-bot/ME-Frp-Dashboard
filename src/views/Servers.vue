@@ -2,7 +2,7 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-18 21:45:19
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-30 20:11:25
+ * @LastEditTime: 2022-12-12 12:22:51
  * @FilePath: \lae-ui\src\views\Servers.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -25,6 +25,8 @@
         <template v-for="n in 1" :key="n">
           <v-card>
             <v-card-title>服务器列表</v-card-title>
+            <v-card-subtitle><a href="https://dash.laecloud.com">莱云-游戏容器</a> 每月仅需 3.95 元起 按量计费 不二之选</v-card-subtitle>
+          <v-card-subtitle><a href="https://dash.laecloud.com">游戏容器</a> 和 镜缘映射 均属于 <a href="https://dash.laecloud.com">莱云</a> 的服务，<a href="https://dash.laecloud.com">了解详情</a></v-card-subtitle>
               <v-table class="table">
                 <thead>
                   <tr>

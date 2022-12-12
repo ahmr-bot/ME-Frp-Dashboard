@@ -7,7 +7,7 @@
       <h3>
         <input class="editable" v-model="tunnel.name" @change="change()" placeholder="隧道名称是必填项" />
       </h3>
-
+      <div>无法删除？ 前往<v-btn color="primary" href="https://dash.laecloud.com/hosts">莱云控制面板</v-btn> 删除 </div>
       <div class="btn-group" role="group" aria-label="隧道控制按钮组">
         <button class="btn btn-outline-secondary" v-show="canDelete" @click="resetToken()" type="button"
           data-bs-toggle="tooltip" data-bs-placement="right" title="你需要关闭客户端后，才能重置。">

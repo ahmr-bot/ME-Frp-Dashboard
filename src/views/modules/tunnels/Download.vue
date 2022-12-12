@@ -2,7 +2,7 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-22 00:23:44
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-12-06 12:27:10
+ * @LastEditTime: 2022-12-12 12:41:11
  * @FilePath: \lae-ui\src\views\modules\tunnels\Download.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -24,6 +24,7 @@
 
         <template v-for="n in 1" :key="n">
           <v-card text="MirrorEdge 镜缘映射 客户端下载">
+            <v-card-subtitle><v-btn color="primary" href="https://dash.laecloud.com/modules/gct">莱云-游戏容器</v-btn> 每月仅需 3.95 元起 按量计费  Minecraft 腐竹的不二之选</v-card-subtitle>
               <v-table class="table table-hover">
                 <thead>
                   <tr>

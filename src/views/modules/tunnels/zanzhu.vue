@@ -2,7 +2,7 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-22 00:23:44
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-12-06 14:43:54
+ * @LastEditTime: 2022-12-12 13:14:28
  * @FilePath: \lae-ui\src\views\modules\tunnels\Download.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -29,6 +29,7 @@
               <div>那么就请尽您的绵薄之力，助我们走的更久吧！</div>
               <v-btn color="primary" href="https://afdian.net/a/aehxy">赞助(现金)</v-btn>
               <div>服务器赞助请联系 1878832944</div>
+              <div>您也可以通过购买和使用 <v-btn color="primary" href="https://dash.laecloud.com">莱云</v-btn> 的其他服务来支持我们！</div>
             </v-card-text>
           </v-card>
           <br />

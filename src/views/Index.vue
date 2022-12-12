@@ -31,11 +31,12 @@
               <v-card-text>
                 <div>隧道数量: 3 条</div>
                 <div>带宽: ∞ Mbps</div>
-                <div>余额: {{ store.state.user.balance }} 元（莱云账户余额 目前没啥用）</div>
+                <div>余额: {{ store.state.user.balance }} 元（<a href="https://dash.laecloud.com">莱云</a>账户余额 目前没啥用）</div>
                 <router-link class="text-auto" :to="{ name: 'billing.transactions' }"> 交易记录</router-link><br />
                 <router-link class="text-auto" :to="{ name: 'billing.charge' }">充值</router-link><br />
                 <div>Aehxy 运营/策划</div>
                 <div><a href="https://dash.laecloud.com">莱云 所有</a></div>
+                <v-btn color="primary" href="https://dash.laecloud.com">欢迎体验更多 莱云 的优秀服务</v-btn>
               </v-card-text>
             </v-card>
            <br />
@@ -45,6 +46,7 @@
               <div>那么就请尽您的绵薄之力，助我们走的更久吧！</div>
               <v-btn color="primary" href="https://afdian.net/a/aehxy">赞助(现金)</v-btn>
               <div>服务器赞助请联系 1878832944</div>
+              <div>您也可以通过购买和使用 <v-btn color="primary" href="https://dash.laecloud.com">莱云</v-btn> 的其他服务来支持我们！</div>
             </v-card-text>
           </v-card>
                 </v-col>

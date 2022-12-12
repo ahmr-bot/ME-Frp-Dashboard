@@ -24,6 +24,7 @@
             您当前的可抵用流量: {{ traffics.free_traffic }} GB
           </p>
           <p> 已创建隧道/隧道总数: {{ tunnelcount }} / 3 </p>
+          <div>想要更多免费隧道？ 前往<v-btn color="primary" href="https://dash.laecloud.com/modules/tunnels">莱云控制面板</v-btn> 创建 </div>
           <div class="mt-3">
             <div class="btn-group" role="group" aria-label="创建或整合隧道配置文件">
               <v-btn type="button" color="primary" class="btn btn-outline-primary"  data-bs-toggle="modal"

@@ -48,15 +48,6 @@ const routes = [
     },
   },
   {
-    path: '/tasks',
-    name: 'tasks',
-    component: () => import('../views/Tasks.vue'),
-    meta: {
-      auth: true,
-      keepalive: true,
-    },
-  },
-  {
     path: '/hosts',
     name: 'hosts',
     component: () => import('../views/user/Hosts.vue'),

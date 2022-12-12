@@ -1,3 +1,11 @@
+<!--
+ * @Author: ahmr-bot ahmrcxy@gmail.com
+ * @Date: 2022-11-22 00:23:44
+ * @LastEditors: ahmr-bot ahmrcxy@gmail.com
+ * @LastEditTime: 2022-12-12 12:38:28
+ * @FilePath: \lae-ui\src\views\user\Hosts.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <v-app id="inspire">
     <!--appbar-->
@@ -15,93 +23,11 @@
       <v-container>
 
         <template v-for="n in 1" :key="n">
-          <div>
-            <h3>计费项目列表</h3>
-
-            <p>
-              注意:
-              部分服务会接管价格。价格被接管后，我们将不会自动扣费，扣费控制权将交给对应服务。
-            </p>
-            <p>如果价格被接管，则可能是按量计费等。</p>
-
-            <div class="overflow-auto">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">服务</th>
-                    <th scope="col">名称</th>
-                    <th scope="col">元 / 月(大约)</th>
-                    <th scope="col">本月消耗</th>
-                    <th scope="col">状态</th>
-                    <th scope="col">几分扣费</th>
-                    <th scope="col">创建时间</th>
-                    <!-- <th scope="col">更新时间</th> -->
-                    <th scope="col">释放</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="host in hosts">
-                    <td>{{ host.module.name }}</td>
-                    <td>{{ host.name }}</td>
-                    <td>
-                      <span v-if="host.managed_price !== null" class="text-success">
-                        {{ host.managed_price }} 元 / 月
-                        <br />
-                      </span>
-                      <span v-else-if="host.price > 0" class="text-success">
-                        {{ host.price }} 元 / 月
-                      </span>
-                      <span v-else-if="
-                        host.price == 0 &&
-                        (host.managed_price == 0 || host.managed_price == null)
-                      " class="text-danger">
-                        被接管
-                      </span>
-                    </td>
-                    <td>
-                      <span v-if="usages.balances[host.id]">
-                        {{ usages.balances[host.id] }} 元
-                      </span>
-                      <span v-else> 0 元 </span>
-                    </td>
-                    <td>
-                      <span v-if="host.status == 'running'">
-                        <span class="text-success"><i class="bi bi-check-circle"></i> &nbsp;运行中</span>
-                      </span>
-                      <span v-else-if="host.status == 'pending'">
-                        <span class="text-warning"><i class="bi bi-clock-history"></i> &nbsp;等待中</span>
-                      </span>
-                      <span v-else-if="host.status == 'suspended'">
-                        <span class="text-danger">
-                          <i class="bi bi-x-circle"></i>
-                          &nbsp;已暂停
-                        </span>
-                      </span>
-                      <span v-else>
-                        <span class="text-danger">
-                          <i class="bi bi-x-circle"></i>
-                          &nbsp;已停止
-                        </span>
-                      </span>
-                    </td>
-                    <td>{{ new Date(host.created_at).getMinutes() }} 分</td>
-                    <td>{{ new Date(host.created_at).toLocaleString() }}</td>
-                    <!-- <td>{{ new Date(host.updated_at).toLocaleString() }}</td> -->
-                    <td>
-                      <v-btn color="primary" href="#" @click="deleteHost(host.id)">释放</v-btn>
-                      <span v-show="host.status == 'suspended' || host.status == 'stopped'">&nbsp;</span>
-                      <v-btn color="primary" v-show="host.status == 'suspended' || host.status == 'stopped'" href="#"
-                        @click="startHost(host.id)">启动</v-btn>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <p>当您释放资源后，我们将会在后台排队处理，这可能需要一些时间。</p>
-            <p>请注意: 余额 计算并不准确。它可能与实际获得有点偏差。</p>
-            <p>现在，计费已经改为每小时一次。在每小时的第几分扣费。</p>
-          </div>
+         <v-card>
+          <v-card-title>
+            如果要释放或查看您的服务，请前往 <v-btn color="primary" href="https://dash.laecloud.com/hosts">莱云控制面板</v-btn>
+          </v-card-title>
+         </v-card>
         </template>
 
       </v-container>

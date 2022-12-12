@@ -2,7 +2,7 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-23 15:34:46
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-26 21:08:47
+ * @LastEditTime: 2022-12-12 12:34:57
  * @FilePath: \lae-ui\src\components\list.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -17,6 +17,9 @@
   </v-list>
   <v-list>
     <v-list-item prepend-icon="paid" title="赞助" :to="{ name: 'modules.tunnels.zanzhu' }"></v-list-item>
+  </v-list>
+  <v-list>
+    <v-list-item prepend-icon="dashboard" title="莱云-控制面板" href="https://dash.laecloud.com"></v-list-item>
   </v-list>
   <v-divider></v-divider>
   <v-list>
@@ -39,7 +42,7 @@
     <v-list-item prepend-icon="dns" title="主机列表" :to="{ name: 'hosts' }"></v-list-item>
   </v-list>
   <v-list>
-  <v-list-item prepend-icon="forum" title="论坛" href="https://forum.laecloud.com"></v-list-item>
+  <v-list-item prepend-icon="forum" title="莱云-论坛" href="https://forum.laecloud.com"></v-list-item>
   </v-list>
 
 </template>

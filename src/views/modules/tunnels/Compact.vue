@@ -2,7 +2,7 @@
  * @Author: ahmr-bot ahmrcxy@gmail.com
  * @Date: 2022-11-18 21:45:19
  * @LastEditors: ahmr-bot ahmrcxy@gmail.com
- * @LastEditTime: 2022-11-23 17:15:10
+ * @LastEditTime: 2022-12-12 12:43:49
  * @FilePath: \lae-ui\src\views\modules\tunnels\Compact.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -24,7 +24,7 @@
 
         <template v-for="n in 1" :key="n">
           <h3 class="mt-3">整合配置文件</h3>
-
+          <div>Minecraft 开服？ 了解一下价格低廉的 <v-btn color="primary" href="https://dash.laecloud.com/"> 莱云-游戏容器</v-btn></div>
           <div class="mt-3"></div>
           
           <select color="primary" class="form-control" v-model="selectedServer" @change="getTunnels()">
