@@ -42,7 +42,7 @@
             <router-link :to="{ name: 'modules.tunnels.show', params: { id: tunnel.id } }"
               class="list-group-item list-group-item-action shadow-sm rounded">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 text-success">{{ tunnel.name }}</h5>
+                <h5 class="mb-1 text-success"><a>{{ tunnel.name }}</a>|<a>{{ tunnel.id }}</a></h5>
                 <small>{{ new Date(tunnel.updated_at).toLocaleString() }}</small>
               </div>
               <p class="mb-1">
