@@ -1,36 +1,42 @@
 <template>
-  <router-link class="btn btn-outline-primary" :to="{ name: 'modules.tunnels' }">
+  <v-btn color="primary" :to="{ name: 'modules.tunnels' }">
     返回到 隧道相关
-  </router-link>
+  </v-btn>
   <div>
     <div v-if="loaded">
       <h3>
         <input class="editable" v-model="tunnel.name" @change="change()" placeholder="隧道名称是必填项" />
       </h3>
       <h5>隧道 ID: <a>{{ tunnel.id }}</a></h5>
-      <div>无法删除？ 前往<v-btn color="primary" href="https://dash.laecloud.com/hosts">莱云控制面板</v-btn> 删除 </div>
       <div class="btn-group" role="group" aria-label="隧道控制按钮组">
-        <button class="btn btn-outline-secondary" v-show="canDelete" @click="resetToken()" type="button"
+        <v-btn
+          color="primary"
+          v-if="tunnel.status == 'running'"
+          @click="stopTunnel()"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="不再接受新的隧道连接并立即下线客户端。"
+        >
+          停用隧道
+        </v-btn>
+
+        <v-btn
+          v-else-if="tunnel.status == 'stopped'"
+          color="primary"
+          @click="startTunnel()"
+        >
+          启用隧道
+        </v-btn>
+        <v-btn color="primary" v-show="canDelete" @click="resetToken()" type="button"
           data-bs-toggle="tooltip" data-bs-placement="right" title="你需要关闭客户端后，才能重置。">
           重置 Token
-        </button>
+        </v-btn>
 
-        <button class="btn btn-outline-danger" v-show="canDelete" @click="deleteTunnel()" type="button"
+        <v-btn color="primary" v-show="canDelete" @click="deleteTunnel()" type="button"
           data-bs-toggle="tooltip" data-bs-placement="right" title="删除后，你将无法恢复该隧道。如果你的隧道没有停止，则你看不见删除按钮。">
           删除
-        </button>
+        </v-btn>
       </div>
-
-      <!-- <button
-        class="btn btn-outline-primary"
-        v-if="tunnel.status == 'running'"
-        @click="stop()"
-        data-bs-toggle="tooltip"
-        data-bs-placement="right"
-        title="不再接受新的隧道连接。"
-      >
-        停用隧道
-      </button> -->
 
       <!-- <p v-else-if="tunnel.status == 'suspended'">
         隧道已被暂停，无法进一步操作。
@@ -38,19 +44,11 @@
 
       <p v-if="tunnel.status == 'suspended'">隧道已被暂停，无法进一步操作。</p>
 
-      <!-- <button
-        v-else-if="tunnel.status == 'stopped'"
-        class="btn btn-outline-primary"
-        @click="start()"
-      >
-        启用隧道
-      </button> -->
-
       <div v-if="showChart">
         <vue-echarts :option="option" style="height: 500px" ref="chart" />
       </div>
 
-      <p v-if="tunnel.status == 'stopped'">
+      <p v-if="tunnel.status == 'stopped'"  class="mt-1">
         隧道已经停止，如果客户端还在运行，则会正常计费。<span v-show="!canDelete">在客户端关闭大约1分钟左右，才可以删除隧道。</span>
       </p>
 
@@ -86,22 +84,22 @@
       <div class="mt-3">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-tunnel-status-tab" data-bs-toggle="tab"
+            <v-btn class="nav-link active" id="nav-tunnel-status-tab" data-bs-toggle="tab"
               data-bs-target="#nav-tunnel-status" type="button" role="tab" aria-controls="nav-tunnel-status"
               aria-selected="true">
               隧道状态
-            </button>
+            </v-btn>
 
-            <button class="nav-link" id="nav-conf-all-tab" data-bs-toggle="tab" data-bs-target="#nav-conf-all"
+            <v-btn class="nav-link" id="nav-conf-all-tab" data-bs-toggle="tab" data-bs-target="#nav-conf-all"
               type="button" role="tab" aria-controls="nav-conf-all" aria-selected="false">
               配置文件
-            </button>
+            </v-btn>
 
-            <button class="nav-link" id="nav-conf-client-in-tab" data-bs-toggle="tab"
+            <v-btn class="nav-link" id="nav-conf-client-in-tab" data-bs-toggle="tab"
               data-bs-target="#nav-conf-client-in" type="button" role="tab" aria-controls="nav-conf-client-in"
               aria-selected="false">
               传入配置
-            </button>
+            </v-btn>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -289,75 +287,90 @@ function resetToken() {
   }
 }
 
-const option = ref({})
+function stopTunnel() {
+    http.patch(url, { status: 'stopped' }).then(() => {
+      setTimeout(() => {
+        refresh()
+      }, 1000)
+    })
+  }
+  function startTunnel() {
+    http.patch(url, { status: 'running' }).then(() => {
+      setTimeout(() => {
+        refresh()
+      }, 1000)
+    })
+  }
+  const option = ref({})
 
-function freshChart() {
-  if (showChart.value) {
-    let trafficInArr = tunnel.value.traffic.traffic_in
-    let trafficOutArr = tunnel.value.traffic.traffic_out
+  function freshChart() {
+    if (showChart.value) {
+      let trafficInArr = tunnel.value.traffic.traffic_in
+      let trafficOutArr = tunnel.value.traffic.traffic_out
 
-    trafficInArr = trafficInArr.reverse()
-    trafficOutArr = trafficOutArr.reverse()
-    let now = new Date()
-    now = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
-    let dates = new Array()
-    for (let i = 0; i < 7; i++) {
-      dates.push(
-        now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate()
-      )
-      now = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-    }
+      trafficInArr = trafficInArr.reverse()
+      trafficOutArr = trafficOutArr.reverse()
+      let now = new Date()
+      now = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
+      let dates = new Array()
+      for (let i = 0; i < 7; i++) {
+        dates.push(
+          now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate()
+        )
+        now = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+      }
 
-    option.value = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
-        formatter: function (data) {
-          let html = ''
-          if (data.length = 0) {
-            html += data[0].name + '<br/>'
-          }
-          for (let v of data) {
-            let colorEl =
-              '<span style="display:inline-block;margin-right:5px;' +
-              'border-radius:10px;width:9px;height:9px;background-color:' +
-              v.color +
-              '"></span>'
-            html +=
-              colorEl +
-              v.seriesName +
-              ': ' +
-              Humanize.fileSize(v.value) +
-              '<br/>'
-          }
-          return html
-        },
-      },
-      legend: {
-        data: ['入站流量', '出站流量'],
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true,
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data: dates,
-        },
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          axisLabel: {
-            formatter: function (value) {
-              return Humanize.fileSize(value)
-            },
+      option.value = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
           },
+          formatter: function (data) {
+            let html = ''
+            if (data.length > 0) {
+              html += data[0].name + '<br/>'
+            }
+            for (let v of data) {
+              let colorEl =
+                '<span style="display:inline-block;margin-right:5px;' +
+                'border-radius:10px;width:9px;height:9px;background-color:' +
+                v.color +
+                '"></span>'
+              html +=
+                colorEl +
+                v.seriesName +
+                ': ' +
+                Humanize.fileSize(v.value) +
+                '<br/>'
+            }
+            return html
+          },
+        },
+        legend: {
+          data: ['入站流量', '出站流量'],
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: dates,
+          },
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            axisLabel: {
+              formatter: function (value) {
+                return Humanize.fileSize(value)
+              },
+      },
+ 
         },
       ],
       series: [

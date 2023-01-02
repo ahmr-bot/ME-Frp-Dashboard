@@ -36,6 +36,9 @@
                 ">
                 创建隧道
               </v-btn>
+              <!--<v-btn color="primary" @click="stopAll">
+                停止全部
+              </v-btn>-->
             </div>
           </div>
           <div class="list-group mt-3" v-for="tunnel in tunnels">
@@ -45,7 +48,19 @@
                 <h5 class="mb-1 text-success"><a>{{ tunnel.name }}</a>|<a>{{ tunnel.id }}</a></h5>
                 <small>{{ new Date(tunnel.updated_at).toLocaleString() }}</small>
               </div>
-              <p class="mb-1">
+              <div class="mb-1">
+          <span v-if="tunnel.status == 'suspended'">
+            <span class="text-danger">
+              <i class="bi bi-x-circle"></i>
+              &nbsp;已暂停
+            </span>
+          </span>
+          <span v-else-if="tunnel.status == 'stopped'">
+            <span class="text-danger">
+              <i class="bi bi-x-circle"></i>
+              &nbsp;已停止
+            </span>
+          </span>
                 <span v-if="tunnel.protocol == 'http' || tunnel.protocol == 'https'" data-bs-toggle="tooltip"
                   data-bs-placement="right" title="按住 Shift 或 Ctrl 来打开">隧道地址:
                   <a color="primary" rel="noreferrer" target="_blank" :href="tunnel.protocol + '://' + tunnel.custom_domain"
@@ -61,7 +76,7 @@
                         tunnel.remote_port
                     }} </a>
                 </span>
-              </p>
+              </div>
               <!-- <small class="text-muted">
         
         </small> -->
@@ -289,7 +304,7 @@ const tunnelCreateError = ref(false)
 
 //   const packages = ref({})
 
-const cdn = ref({})
+// const cdn = ref({})
 const tunnelcount = ref({})
 const selectedServer = ref({
   name: null,
@@ -447,6 +462,15 @@ function JSONLength(obj) {
     tunnelCreateError.value = '隧道数量已满或过量，无法创建隧道'
   }
 }
+function stopAll() {
+    if (confirm('确定要停止所有隧道吗？')) {
+      http.post('/modules/frp/stop').then((res) => {
+        http.get('/modules/frp/hosts').then((res) => {
+          tunnels.value = res.data
+        })
+      })
+    }
+  }
 </script>
 <script>
 export default {
