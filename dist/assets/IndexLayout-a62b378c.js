@@ -1,0 +1,1 @@
+import{r as t,c as e}from"./menuOptions-2f8fe5f8.js";import{H as o,P as s,b as a}from"./@vicons-40010984.js";import{o as l,c as r,L as i}from"./@vue-fa1c5c1f.js";const f={__name:"IndexLayout",setup(m){return t("left",()=>{e("left","index","首页",o),e("left","pinned","固钉",s),e("left","announcements","公告",a)}),(n,u)=>(l(),r("div",null,[i(n.$slots,"default")]))}};export{f as _};

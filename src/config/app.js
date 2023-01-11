@@ -1,5 +1,5 @@
 export default {
-    name: "莱云",
+    name: "镜缘映射",
 
     // isLogin: false,
 }
