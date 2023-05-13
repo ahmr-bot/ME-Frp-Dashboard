@@ -1,7 +1,7 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
-import user from './stores/user'
 import app from '../config/app'
+import user from './stores/user'
 
 const routes = [
     {
@@ -172,81 +172,6 @@ const routes = [
             auth: true,
         },
         children: [
-            {
-                path: 'tunnels',
-                // name: 'modules.tunnels',
-                component: () => import('../views/modules/tunnels/Base.vue'),
-                meta: {
-                    title: 'PortIO',
-                },
-                children: [
-                    {
-                        path: '',
-                        name: 'modules.tunnels.index',
-                        component: () => import('../views/modules/tunnels/Index.vue'),
-                        meta: {
-                            title: '隧道列表',
-                        },
-                    },
-                    {
-                        path: 'sponsor',
-                        name: 'modules.tunnels.sponsor',
-                        component: () => import('../views/modules/tunnels/Sponsor.vue'),
-                        meta: {
-                            title: '赞助列表',
-                        },
-                    },
-                    {
-                        path: 'sign',
-                        name: 'modules.tunnels.sign',
-                        component: () => import('../views/modules/tunnels/Sign.vue'),
-                        meta: {
-                            title: '流量补给',
-                        },
-                    },
-                    {
-                        path: 'create',
-                        name: 'modules.tunnels.create',
-                        component: () => import('../views/modules/tunnels/Create.vue'),
-                        meta: {
-                            title: '创建隧道',
-                        },
-                    },
-                    {
-                        path: 'concat',
-                        name: 'modules.tunnels.concat',
-                        component: () => import('../views/modules/tunnels/Concat.vue'),
-                        meta: {
-                            title: '配置文件',
-                        },
-                    },
-                    {
-                        path: 'status',
-                        name: 'modules.tunnels.status',
-                        component: () => import('../views/modules/tunnels/Status.vue'),
-                        meta: {
-                            title: '服务器状态',
-                        },
-                    },
-                    {
-                        path: ':id',
-                        name: 'modules.tunnels.show',
-                        component: () => import('../views/modules/tunnels/Show.vue'),
-                        meta: {
-                            // collapses: ['left'],
-                            title: '隧道详情',
-                        },
-                    },
-                    {
-                        path: 'downloads',
-                        name: 'modules.tunnels.downloads',
-                        component: () => import('../views/modules/tunnels/Downloads.vue'),
-                        meta: {
-                            title: '下载客户端',
-                        },
-                    },
-                ],
-            },
             {
                 path: 'gct',
                 // name: 'modules.gct',
